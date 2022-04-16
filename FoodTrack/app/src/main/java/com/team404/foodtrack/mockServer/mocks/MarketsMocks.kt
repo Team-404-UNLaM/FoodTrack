@@ -13,8 +13,8 @@ object MarketsMocks {
                 "Fitz Roy",
                 "1731",
                 "Palermo",
-                "-34.58378",
-                "-58.43586"
+                -34.58378,
+                -58.43586
             ))
             .stars(4.5)
             .description("Restaurant tranquilo, especializado en hamburguesas y acompañamientos caseros")
