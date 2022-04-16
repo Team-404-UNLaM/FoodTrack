@@ -58,8 +58,8 @@ object MarketsMocks {
                 "Gorriti",
                 "5520",
                 "Palermo",
-                "-34.58555",
-                "-58.43659"
+                -34.58555,
+                -58.43659
             ))
             .stars(4.8)
             .description("Resto-bar para disfrutar de buena comida, con buena musica y buen acompañamiento")
