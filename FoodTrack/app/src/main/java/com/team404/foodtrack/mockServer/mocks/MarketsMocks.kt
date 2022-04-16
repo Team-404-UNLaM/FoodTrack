@@ -43,8 +43,8 @@ object MarketsMocks {
                 "Bonpland",
                 "1367",
                 "Palermo",
-                "-34.58634",
-                "-58.44069"
+                -34.58634,
+                -58.44069
             ))
             .stars(4.0)
             .description("Lugar ideal para tus desayunos o meriendas, conversar tranquilo y disfrutar de un buen cafe")
