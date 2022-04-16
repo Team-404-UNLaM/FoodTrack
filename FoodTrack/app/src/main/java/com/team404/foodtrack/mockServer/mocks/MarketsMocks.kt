@@ -28,8 +28,8 @@ object MarketsMocks {
                 "Av. Cnel. Niceto Vega",
                 "5795",
                 "Palermo",
-                "-34.58511",
-                "-58.44113"
+                -34.58511,
+                -58.44113
             ))
             .stars(4.9)
             .description("Tus empanadas favoritas en un solo lugar")
