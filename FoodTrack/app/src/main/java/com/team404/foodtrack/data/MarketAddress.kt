@@ -4,6 +4,6 @@ data class MarketAddress(
     val street: String,
     val number: String,
     val city: String,
-    val latitude: String,
-    val longitude: String
+    val latitude: Double,
+    val longitude: Double
 )
