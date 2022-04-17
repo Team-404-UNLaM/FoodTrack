@@ -10,11 +10,11 @@ import com.team404.foodtrack.data.database.MarketFavorites
 interface MarketFavoritesDao {
 
     @Query("SELECT * FROM MARKET_FAVORITES")
-    fun search() : List<MarketFavorites>
+    suspend fun search() : List<MarketFavorites>
 
     @Insert
-    fun insert(marketFavorites: MarketFavorites) : Long
+    suspend fun insert(marketFavorites: MarketFavorites)
 
     @Delete
-    fun delete(marketFavorites: MarketFavorites) : Long
+    suspend fun delete(marketFavorites: MarketFavorites)
 }

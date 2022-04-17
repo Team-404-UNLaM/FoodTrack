@@ -5,15 +5,15 @@ import com.team404.foodtrack.domain.persistence.MarketFavoritesDao
 
 class MarketFavoritesRepository(private val marketFavoritesDao: MarketFavoritesDao) {
 
-    fun search() : List<MarketFavorites> {
+    suspend fun search() : List<MarketFavorites> {
         return marketFavoritesDao.search()
     }
 
-    fun insert(marketFavorites: MarketFavorites) : Long {
+    suspend fun insert(marketFavorites: MarketFavorites) {
         return marketFavoritesDao.insert(marketFavorites)
     }
 
-    fun delete(marketFavorites: MarketFavorites) : Long {
+    suspend fun delete(marketFavorites: MarketFavorites) {
         return marketFavoritesDao.delete(marketFavorites)
     }
 }
