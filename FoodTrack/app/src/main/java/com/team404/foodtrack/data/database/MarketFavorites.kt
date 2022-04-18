@@ -9,5 +9,5 @@ data class MarketFavorites(
     val marketId: Long,
     val name: String,
     val city: String,
-    val starts: Double,
+    val stars: Double,
 )
