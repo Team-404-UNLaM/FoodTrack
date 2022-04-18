@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/layout/fragment_cupon.xml" value="0.32395833333333335" />
         <entry key="app/src/main/res/layout/item_coupon.xml" value="0.33" />
         <entry key="app/src/main/res/layout/motion_carousel.xml" value="0.20244565217391305" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.32395833333333335" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.32395833333333335" />
       </map>
     </option>
   </component>

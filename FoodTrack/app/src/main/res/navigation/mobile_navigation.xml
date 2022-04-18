@@ -22,4 +22,8 @@
         android:name="com.team404.foodtrack.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/cuponFragment"
+        android:name="com.team404.foodtrack.ui.cuponUI.CuponFragment"
+        android:label="CuponFragment" />
 </navigation>

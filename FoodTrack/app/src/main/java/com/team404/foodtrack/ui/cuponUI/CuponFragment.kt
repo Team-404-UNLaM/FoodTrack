@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.team404.foodtrack.R
+import com.team404.foodtrack.data.Coupon
 import com.team404.foodtrack.databinding.FragmentCuponBinding
-import com.team404.foodtrack.databinding.FragmentGalleryBinding
+import com.team404.foodtrack.domain.repositories.CouponRepository
 
 class CuponFragment : Fragment() {
 
+    private val repository = CouponRepository()
     private var _binding: FragmentCuponBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,9 +26,13 @@ class CuponFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentCuponBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        setupCarousel(repository.search())
         return root
+    }
 
+    private fun setupCarousel(coupons: List<Coupon>) {
+        val adapter = CouponAdapter(coupons)
+        binding.carousel.setAdapter(adapter)
     }
 
     override fun onDestroyView() {
