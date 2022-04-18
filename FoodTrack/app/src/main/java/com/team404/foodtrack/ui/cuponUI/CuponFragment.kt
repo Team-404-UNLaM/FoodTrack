@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.helper.widget.Carousel
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.Coupon
 import com.team404.foodtrack.databinding.FragmentCuponBinding
@@ -32,9 +34,10 @@ class CuponFragment : Fragment() {
 
     private fun setupCarousel(coupons: List<Coupon>) {
         val adapter = CouponAdapter(coupons)
-        binding.carousel.setAdapter(adapter)
+        binding.rvCoupon.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCoupon.adapter = adapter
     }
-
+ 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
