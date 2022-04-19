@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.helper.widget.Carousel
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.Coupon
 import com.team404.foodtrack.databinding.FragmentCuponBinding
 import com.team404.foodtrack.domain.repositories.CouponRepository
+import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
 
 class CuponFragment : Fragment() {
 
@@ -34,7 +36,10 @@ class CuponFragment : Fragment() {
 
     private fun setupCarousel(coupons: List<Coupon>) {
         val adapter = CouponAdapter(coupons)
-        binding.rvCoupon.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvCoupon.layoutManager = ZoomRecyclerLayout(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvCoupon)
+        binding.rvCoupon.isNestedScrollingEnabled = false
         binding.rvCoupon.adapter = adapter
     }
 
