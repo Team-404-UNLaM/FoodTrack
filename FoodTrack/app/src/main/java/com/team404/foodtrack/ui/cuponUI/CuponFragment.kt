@@ -34,10 +34,10 @@ class CuponFragment : Fragment() {
 
     private fun setupCarousel(coupons: List<Coupon>) {
         val adapter = CouponAdapter(coupons)
-        binding.rvCoupon.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCoupon.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvCoupon.adapter = adapter
     }
- 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
