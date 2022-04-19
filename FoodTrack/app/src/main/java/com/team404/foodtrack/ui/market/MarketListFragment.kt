@@ -13,27 +13,31 @@ import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Market
 import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.databinding.FragmentMarketListBinding
+import com.team404.foodtrack.domain.factories.MarketListViewModelFactory
 import com.team404.foodtrack.domain.mappers.MarketFavoritesMapper
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
-import com.team404.foodtrack.mockServer.MockServer
+import androidx.lifecycle.ViewModelProvider
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import com.team404.poketeam.domain.adapters.MarketAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
 
 
 class MarketListFragment : Fragment() {
 
+    private lateinit var factory: MarketListViewModelFactory
+    private lateinit var viewModel: MarketListViewModel
     private lateinit var marketAdapter: MarketAdapter
     private lateinit var room: FoodTrackDB
     private var _binding: FragmentMarketListBinding? = null
     private var searchInputValue: String = ""
     private val binding get() = _binding!!
     private val marketFavoritesMapper: MarketFavoritesMapper = MarketFavoritesMapper()
-    private val mockServer: MockServer = MockServer()
+    private val marketRepository : MarketRepository by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +47,13 @@ class MarketListFragment : Fragment() {
         _binding = FragmentMarketListBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        factory = MarketListViewModelFactory(marketRepository)
+        viewModel = ViewModelProvider(this, factory).get(MarketListViewModel::class.java)
+
         injectDependencies(root)
-        setUpRecyclerView()
+        setUpRecyclerView(root)
         setUpListeners(root)
-        setUpMarketAdapter()
+        setUpObserver()
 
         return root
     }
@@ -72,22 +79,27 @@ class MarketListFragment : Fragment() {
         marketAdapter = MarketAdapter(viewClickListener, isFavoriteClickListener)
     }
 
-    private fun setUpRecyclerView() {
-        binding.recyclerViewMarket.layoutManager =
-            GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewMarket.adapter = marketAdapter
+    private fun setUpRecyclerView(view: View) {
+        viewModel.getMarketList(view)
+
+        binding.recyclerViewMarket.also {
+            it.layoutManager = GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false)
+            it.setHasFixedSize(true)
+            it.adapter = marketAdapter
+        }
     }
 
     private fun setUpListeners(root: View) {
         setSearchMarketListener(root)
     }
 
-    private fun setUpMarketAdapter() {
-        val marketList = MarketRepository(mockServer).search()
-
-        marketAdapter.updateMarketList(marketList)
-        marketAdapter.notifyDataSetChanged()
-
+    private fun setUpObserver() {
+        viewModel.marketList.observe(viewLifecycleOwner, { marketList ->
+            if (marketList != null) {
+                marketAdapter.updateMarketList(marketList)
+                marketAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun changeFavoriteMarket(market: Market) {
@@ -129,16 +141,10 @@ class MarketListFragment : Fragment() {
     }
 
     private fun searchMarketBySearchInputValue() {
-        val marketRepository = MarketRepository(mockServer)
-        val marketList: MutableList<Market>?
-
         if (searchInputValue.isNotEmpty()) {
-            marketList = marketRepository.searchByName(searchInputValue) as MutableList<Market>
+            viewModel.marketList.value = marketRepository.searchByName(searchInputValue) as MutableList<Market>
         } else {
-            marketList = marketRepository.search() as MutableList<Market>
+            viewModel.marketList.value = marketRepository.search() as MutableList<Market>
         }
-
-        marketAdapter.updateMarketList(marketList)
-        marketAdapter.notifyDataSetChanged()
     }
 }
