@@ -16,6 +16,7 @@
         android:id="@+id/market_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:padding="15dp">
 
         <TextView
@@ -25,7 +26,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="@string/no_name"
-            android:textColor="#373F47"
+            android:textColor="@color/text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +95,7 @@
             android:layout_marginStart="5dp"
             android:gravity="center"
             android:text="0"
-            android:textColor="#373F47"
+            android:textColor="@color/text"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -13,10 +13,10 @@ import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Market
 import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.databinding.FragmentMarketListBinding
+import com.team404.foodtrack.domain.mappers.MarketFavoritesMapper
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.mockServer.MockServer
-import com.team404.foodtrack.utils.SnackbarBuilder
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import com.team404.poketeam.domain.adapters.MarketAdapter
 import kotlinx.coroutines.Dispatchers
@@ -29,12 +29,11 @@ class MarketListFragment : Fragment() {
 
     private lateinit var marketAdapter: MarketAdapter
     private lateinit var room: FoodTrackDB
-    private var mockServer: MockServer = MockServer()
     private var _binding: FragmentMarketListBinding? = null
-    private var query: String = ""
-
-
+    private var searchInputValue: String = ""
     private val binding get() = _binding!!
+    private val marketFavoritesMapper: MarketFavoritesMapper = MarketFavoritesMapper()
+    private val mockServer: MockServer = MockServer()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,10 +45,15 @@ class MarketListFragment : Fragment() {
 
         injectDependencies(root)
         setUpRecyclerView()
-        setListeners(root)
-        setUpMarketAdapter(root)
+        setUpListeners(root)
+        setUpMarketAdapter()
 
         return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun injectDependencies(view: View) {
@@ -63,30 +67,48 @@ class MarketListFragment : Fragment() {
                 .navigate(R.id.action_navigation_marketListFragment_to_x, bundle)*/
         }
 
-        val favoriteClickListener = { market: Market ->
+        val isFavoriteClickListener = { market: Market -> changeFavoriteMarket(market) }
+
+        marketAdapter = MarketAdapter(viewClickListener, isFavoriteClickListener)
+    }
+
+    private fun setUpRecyclerView() {
+        binding.recyclerViewMarket.layoutManager =
+            GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerViewMarket.adapter = marketAdapter
+    }
+
+    private fun setUpListeners(root: View) {
+        setSearchMarketListener(root)
+    }
+
+    private fun setUpMarketAdapter() {
+        val marketList = MarketRepository(mockServer).search()
+
+        marketAdapter.updateMarketList(marketList)
+        marketAdapter.notifyDataSetChanged()
+
+    }
+
+    private fun changeFavoriteMarket(market: Market) {
+        market.id?.let {
             CoroutineScope(Dispatchers.Default).launch {
-                var marketFavorite: MarketFavorites? = market.id?.let {
-                    MarketFavoritesRepository(room.marketFavoritesDao()).getByMarketId(
-                        it
-                    )
-                }
+                val marketFavoritesRepository = MarketFavoritesRepository(room.marketFavoritesDao())
+                var marketFavorite: MarketFavorites? = marketFavoritesRepository.getByMarketId(it)
 
                 if (marketFavorite != null) {
-                    MarketFavoritesRepository(room.marketFavoritesDao()).delete(marketFavorite)
+                    marketFavoritesRepository.delete(marketFavorite)
                 } else {
-                    marketFavorite = MarketFavorites(market.id!!, market.name!!, market.address!!.city, market.stars!!)
-                    MarketFavoritesRepository(room.marketFavoritesDao()).insert(marketFavorite)
+                    marketFavorite = marketFavoritesMapper.map(market)
+                    marketFavoritesRepository.insert(marketFavorite)
                 }
 
-                searchMarketBySearchboxValue(view, query)
+                withContext(Dispatchers.Main) {
+                    marketAdapter.notifyDataSetChanged()
+                }
             }
         }
 
-        marketAdapter = MarketAdapter(viewClickListener, favoriteClickListener)
-    }
-
-    private fun setListeners(root: View) {
-        setSearchMarketListener(root)
     }
 
     private fun setSearchMarketListener(root: View) {
@@ -98,63 +120,25 @@ class MarketListFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                query = transformToLowercaseAndReplaceSpaceWithDash(binding.txtSearchMarket.text.toString())
+                searchInputValue = transformToLowercaseAndReplaceSpaceWithDash(binding.txtSearchMarket.text.toString())
 
-                searchMarketBySearchboxValue(root, query)
+                searchMarketBySearchInputValue()
             }
 
         })
     }
 
-    private fun searchMarketBySearchboxValue(root: View, query: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val marketFavoritesList = MarketFavoritesRepository(room.marketFavoritesDao()).search()
+    private fun searchMarketBySearchInputValue() {
+        val marketRepository = MarketRepository(mockServer)
+        val marketList: MutableList<Market>?
 
-            if(marketFavoritesList != null) {
-                withContext(Dispatchers.Main) {
-                    var marketList: MutableList<Market>? = null
-
-                    if (query.isNotEmpty()) {
-                        marketList = MarketRepository(mockServer).searchByName(query) as MutableList<Market>
-                    } else {
-                        marketList = MarketRepository(mockServer).search() as MutableList<Market>
-                    }
-
-                    if(marketList != null) {
-                        marketAdapter.updateMarketList(marketList, marketFavoritesList)
-                        marketAdapter.notifyDataSetChanged()
-                    }
-                }
-            } else {
-                SnackbarBuilder.showErrorMessage(root)
-            }
+        if (searchInputValue.isNotEmpty()) {
+            marketList = marketRepository.searchByName(searchInputValue) as MutableList<Market>
+        } else {
+            marketList = marketRepository.search() as MutableList<Market>
         }
-    }
 
-    private fun setUpMarketAdapter(root: View) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val marketList = MarketRepository(mockServer).search()
-            val marketFavoritesList = MarketFavoritesRepository(room.marketFavoritesDao()).search()
-
-            if (marketList != null && marketFavoritesList != null) {
-                withContext(Dispatchers.Main) {
-                    marketAdapter.updateMarketList(marketList, marketFavoritesList)
-                    marketAdapter.notifyDataSetChanged()
-                }
-            } else {
-                SnackbarBuilder.showErrorMessage(root)
-            }
-        }
-    }
-
-    private fun setUpRecyclerView() {
-        binding.recyclerViewMarket.layoutManager =
-            GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewMarket.adapter = marketAdapter
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        marketAdapter.updateMarketList(marketList)
+        marketAdapter.notifyDataSetChanged()
     }
 }
