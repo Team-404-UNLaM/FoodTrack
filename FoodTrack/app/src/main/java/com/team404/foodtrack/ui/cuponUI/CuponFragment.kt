@@ -5,18 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.Carousel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import com.team404.foodtrack.R
 import com.team404.foodtrack.data.Coupon
 import com.team404.foodtrack.databinding.FragmentCuponBinding
 import com.team404.foodtrack.domain.repositories.CouponRepository
+import com.team404.foodtrack.mockServer.MockServer
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
 
 class CuponFragment : Fragment() {
 
-    private val repository = CouponRepository()
+    val mockServer = MockServer()
+    private val repository = CouponRepository(mockServer)
     private var _binding: FragmentCuponBinding? = null
 
     // This property is only valid between onCreateView and
