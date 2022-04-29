@@ -17,7 +17,9 @@ import com.team404.foodtrack.domain.factories.MarketListViewModelFactory
 import com.team404.foodtrack.domain.mappers.MarketFavoritesMapper
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
+import com.team404.foodtrack.R
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import com.team404.poketeam.domain.adapters.MarketAdapter
 import kotlinx.coroutines.Dispatchers
@@ -67,11 +69,10 @@ class MarketListFragment : Fragment() {
         room = FoodTrackDB.getDatabase(requireContext())
 
         val viewClickListener = { market: Market ->
-        // TODO: Uncomment and modify when Market view exist
-        /*val bundle = Bundle()
+        val bundle = Bundle()
             market.id?.let { bundle.putLong("marketId", it) }
             Navigation.findNavController(view)
-                .navigate(R.id.action_navigation_marketListFragment_to_x, bundle)*/
+                .navigate(R.id.action_marketListFragment_to_marketFragment, bundle)
         }
 
         val isFavoriteClickListener = { market: Market -> changeFavoriteMarket(market) }
