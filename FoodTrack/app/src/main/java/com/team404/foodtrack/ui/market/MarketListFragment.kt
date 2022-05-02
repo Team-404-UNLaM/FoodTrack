@@ -107,7 +107,7 @@ class MarketListFragment : Fragment() {
         market.id?.let {
             CoroutineScope(Dispatchers.Default).launch {
                 val marketFavoritesRepository = MarketFavoritesRepository(room.marketFavoritesDao())
-                var marketFavorite: MarketFavorites? = marketFavoritesRepository.getByMarketId(it)
+                var marketFavorite: MarketFavorites? = marketFavoritesRepository.searchByMarketId(it)
 
                 if (marketFavorite != null) {
                     marketFavoritesRepository.delete(marketFavorite)

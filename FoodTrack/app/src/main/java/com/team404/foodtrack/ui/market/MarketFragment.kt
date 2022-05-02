@@ -5,26 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
-import com.team404.foodtrack.data.database.MarketFavorites
+import com.team404.foodtrack.data.MarketData
 import com.team404.foodtrack.databinding.FragmentMarketBinding
-import com.team404.foodtrack.domain.mappers.MarketFavoritesMapper
+import com.team404.foodtrack.domain.factories.MarketViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
-import com.team404.foodtrack.utils.SnackbarBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 class MarketFragment : Fragment() {
 
     private var _binding: FragmentMarketBinding? = null
     private val binding get() = _binding!!
-    private val marketFavoritesMapper: MarketFavoritesMapper = MarketFavoritesMapper()
+    private lateinit var factory: MarketViewModelFactory
+    private lateinit var viewModel: MarketViewModel
     private val marketRepository : MarketRepository by inject()
     private lateinit var room: FoodTrackDB
 
@@ -32,11 +29,16 @@ class MarketFragment : Fragment() {
         _binding = FragmentMarketBinding.inflate(inflater, container, false)
         room = FoodTrackDB.getDatabase(requireContext())
         val root: View = binding.root
+        val marketFavoritesRepository = MarketFavoritesRepository(room.marketFavoritesDao())
         val marketId = arguments?.getLong("marketId")
+
+        factory = MarketViewModelFactory(marketRepository, marketFavoritesRepository)
+        viewModel = ViewModelProvider(this, factory).get(MarketViewModel::class.java)
 
         if (marketId != null) {
             setUpListeners(root, marketId)
-            setMarketViewData(marketId)
+            setUpViewData(root, marketId)
+            setUpObserver()
         }
 
         return root
@@ -47,10 +49,19 @@ class MarketFragment : Fragment() {
         isFavoriteListener(marketId)
     }
 
-    fun setMarketViewData(marketId: Long) {
-        val market = marketRepository.searchById(marketId)
+    fun setUpViewData(view: View, marketId: Long) {
+        viewModel.getMarketData(view, marketId)
+    }
 
-        if (market != null) {
+    private fun setUpObserver() {
+        viewModel.marketData.observe(viewLifecycleOwner, { marketData ->
+            setUpMarketView(marketData)
+        })
+    }
+
+    fun setUpMarketView(marketData: MarketData) {
+        if (marketData != null && marketData.market != null) {
+            val market = marketData.market
             binding.marketName.text = market.name?.uppercase() ?: "NO NAME"
             binding.textStars.text = market.stars.toString()
             binding.marketStreetLocationTxt.text = "${market.address?.street} ${market.address?.number}, ${market.address?.city}"
@@ -63,9 +74,11 @@ class MarketFragment : Fragment() {
                     .into(binding.imgMarket)
             }
 
-            fillFavoriteHeartIfApplies(marketId)
-        } else {
-            SnackbarBuilder.showErrorMessage(binding.root)
+            if (marketData.isFavorite) {
+                binding.isFavorite.setImageResource(R.drawable.ic_filled_heart)
+            } else {
+                binding.isFavorite.setImageResource(R.drawable.ic_empty_heart)
+            }
         }
     }
 
@@ -81,44 +94,8 @@ class MarketFragment : Fragment() {
 
     private fun isFavoriteListener(marketId: Long) {
         binding.isFavorite.setOnClickListener {
-            val market = marketRepository.searchById(marketId)
-
-            if (market != null) {
-                CoroutineScope(Dispatchers.Default).launch {
-                    val marketFavoritesRepository = MarketFavoritesRepository(room.marketFavoritesDao())
-                    var marketFavorite: MarketFavorites? = marketFavoritesRepository.getByMarketId(marketId)
-
-                    if (marketFavorite != null) {
-                        marketFavoritesRepository.delete(marketFavorite)
-                    } else {
-                        marketFavorite = marketFavoritesMapper.map(market)
-                        marketFavoritesRepository.insert(marketFavorite)
-                    }
-
-                    fillFavoriteHeartIfApplies(marketId)
-                }
-            }
+            viewModel.changeMarketFavorite()
         }
 
-    }
-
-    private fun fillFavoriteHeartIfApplies(marketId: Long) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val marketFavoritesList = MarketFavoritesRepository(room.marketFavoritesDao()).search()
-
-            if(marketFavoritesList != null) {
-                withContext(Dispatchers.Main) {
-                    val favoriteMarket = marketFavoritesList.find { favorite -> marketId == favorite.marketId}
-
-                    if (favoriteMarket != null) {
-                        binding.isFavorite.setImageResource(R.drawable.ic_filled_heart)
-                    } else {
-                        binding.isFavorite.setImageResource(R.drawable.ic_empty_heart)
-                    }
-                }
-            } else {
-                SnackbarBuilder.showErrorMessage(binding.root)
-            }
-        }
     }
 }
