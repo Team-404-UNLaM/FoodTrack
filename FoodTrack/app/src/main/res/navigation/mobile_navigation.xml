@@ -29,6 +29,15 @@
     <fragment
         android:id="@+id/marketListFragment"
         android:name="com.team404.foodtrack.ui.market.MarketListFragment"
-        android:label="MARKETS"
-        tools:layout="@layout/fragment_market_list" />
+        android:label="LOCALES"
+        tools:layout="@layout/fragment_market_list" >
+        <action
+            android:id="@+id/action_marketListFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/marketFragment"
+        android:name="com.team404.foodtrack.ui.market.MarketFragment"
+        android:label="LOCAL"
+        tools:layout="@layout/fragment_market" />
 </navigation>

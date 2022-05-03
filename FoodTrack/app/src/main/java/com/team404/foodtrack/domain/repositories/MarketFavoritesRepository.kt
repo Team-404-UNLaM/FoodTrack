@@ -10,8 +10,8 @@ class MarketFavoritesRepository(private val marketFavoritesDao: MarketFavoritesD
         return marketFavoritesDao.search()
     }
 
-    suspend fun getByMarketId(marketId: Long) : MarketFavorites? {
-        return marketFavoritesDao.getByMarketId(marketId)?: null
+    suspend fun searchByMarketId(marketId: Long) : MarketFavorites? {
+        return marketFavoritesDao.searchByMarketId(marketId)
     }
 
     suspend fun insert(marketFavorites: MarketFavorites) {
