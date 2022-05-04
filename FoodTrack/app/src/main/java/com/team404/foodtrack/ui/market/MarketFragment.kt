@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
@@ -38,7 +39,7 @@ class MarketFragment : Fragment() {
         if (marketId != null) {
             setUpListeners(root, marketId)
             setUpViewData(root, marketId)
-            setUpObserver()
+            setUpObserver(root)
         }
 
         return root
@@ -53,14 +54,15 @@ class MarketFragment : Fragment() {
         viewModel.getMarketData(view, marketId)
     }
 
-    private fun setUpObserver() {
+    private fun setUpObserver(root: View) {
         viewModel.marketData.observe(viewLifecycleOwner, { marketData ->
             setUpMarketView(marketData)
+            goToMenuListener(root, marketData)
         })
     }
 
     fun setUpMarketView(marketData: MarketData) {
-        if (marketData != null && marketData.market != null) {
+        if (marketData.market != null) {
             val market = marketData.market
             binding.marketName.text = market.name?.uppercase() ?: "NO NAME"
             binding.textStars.text = market.stars.toString()
@@ -79,6 +81,17 @@ class MarketFragment : Fragment() {
             } else {
                 binding.isFavorite.setImageResource(R.drawable.ic_empty_heart)
             }
+        }
+    }
+
+    private fun goToMenuListener(root: View, marketData: MarketData) {
+        binding.btnGoToMenu.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong("marketId", marketData.market!!.id!!)
+            bundle.putString("marketName", marketData.market.name)
+            bundle.putString("marketImg", marketData.market.marketImg)
+            Navigation.findNavController(root)
+                .navigate(R.id.action_marketFragment_to_menuFragment, bundle)
         }
     }
 
