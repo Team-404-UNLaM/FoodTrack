@@ -2,6 +2,7 @@
 
 ## 1.1.0
 
+- [#39](https://github.com/Team-404-UNLaM/FoodTrack/pull/39) Create menu view
 - [#33](https://github.com/Team-404-UNLaM/FoodTrack/pull/33) Delete .idea folder and add to gitignore
 - [#34](https://github.com/Team-404-UNLaM/FoodTrack/pull/34) Create market view
 - [#37](https://github.com/Team-404-UNLaM/FoodTrack/pull/37) Add CHANGELOG file

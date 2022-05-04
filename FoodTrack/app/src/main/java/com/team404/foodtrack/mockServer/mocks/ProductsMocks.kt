@@ -1,0 +1,145 @@
+package com.team404.foodtrack.mockServer.mocks
+
+import com.team404.foodtrack.data.Product
+
+object ProductsMocks {
+
+    fun getProductsMocks() : List<Product> {
+
+        val product1 = Product.Builder()
+            .id(111111L)
+            .marketId(111111L)
+            .name("Big Pons Simple + Papas Fritas")
+            .productImg("https://bigpons.com.ar/productos/20210422181717.jpeg")
+            .description("Medallon x1 Cheddar Fetas x2 Bacon Cebolla Crispy Aderezo Big Pons")
+            .price(1090.00)
+            .build()
+
+        val product2 = Product.Builder()
+            .id(222222L)
+            .marketId(111111L)
+            .name("California simple + Papas fritas")
+            .productImg("https://bigpons.com.ar/productos/20210921083139.jpeg")
+            .description("Medallón, cheddar x2, lechuga, tomate, cebolla, doble california sauce y papas fritas")
+            .price(990.00)
+            .build()
+
+        val product3 = Product.Builder()
+            .id(333333L)
+            .marketId(111111L)
+            .name("Cheese Burger Triple + Papas Fritas")
+            .productImg("https://bigpons.com.ar/productos/20210423145846.jpeg")
+            .description("Medallon x3 Cheddar Fetas x6")
+            .price(1290.00)
+            .build()
+
+        val product4 = Product.Builder()
+            .id(444444L)
+            .marketId(111111L)
+            .name("Pepsi")
+            .productImg("https://bigpons.com.ar/productos/20210422175748.png")
+            .description("Pepsi Regular 354ml")
+            .price(210.00)
+            .build()
+
+        val product5 = Product.Builder()
+            .id(555555L)
+            .marketId(111111L)
+            .name("Agua sin gas")
+            .productImg("https://bigpons.com.ar/productos/20210422180110.jpeg")
+            .description("Agua Mineral Sin Gas Eco de los Andes")
+            .price(210.00)
+            .build()
+
+        val product6 = Product.Builder()
+            .id(666666L)
+            .marketId(111111L)
+            .name("Papas Fritas Cheddar Bacon")
+            .productImg("https://bigpons.com.ar/productos/20210422181006.jpeg")
+            .price(700.00)
+            .build()
+
+        val product7 = Product.Builder()
+            .id(777777L)
+            .marketId(111111L)
+            .name("Aros de Cebolla + BBQ")
+            .productImg("https://bigpons.com.ar/productos/20210623172509.jpeg")
+            .description("300grs de Aros de Cebolla + BBQ Casera")
+            .price(700.00)
+            .build()
+
+        val product8 = Product.Builder()
+            .id(888888L)
+            .marketId(222222L)
+            .name("Vacío y provoleta")
+            .productImg("https://www.clarin.com/img/2020/07/17/empanada-de-vacio-y-provoleta___yr6BcoIce_720x0__1.jpg")
+            .description("Delicioso vacío asado desmechado, clásico chimichurri con cebolla y morrón salteado a fuego lento, queso provoleta y muzzarella seleccionada con toque de semolín en la tapa")
+            .price(250.00)
+            .build()
+
+        val product9 = Product.Builder()
+            .id(999999L)
+            .marketId(222222L)
+            .name("Cheeseburger")
+            .productImg("https://www.cronista.com/files/image/361/361020/6144f3b46807e_322_322!.jpg")
+            .description("Perfecto blend de Roast Beef y tapa de asado, acompañado de bacón crujiente, salsa barbacoa y mar de cheddar")
+            .price(250.00)
+            .build()
+
+        val product10 = Product.Builder()
+            .id(101010101010L)
+            .marketId(222222L)
+            .name("Calabresa XL")
+            .productImg("https://images.deliveryhero.io/image/pedidosya/profile-headers/mi-gusto-header-custom.jpg")
+            .description("Calabresa grande")
+            .price(1300.00)
+            .build()
+
+        val product11 = Product.Builder()
+            .id(111111111111L)
+            .marketId(222222L)
+            .name("Calabresa XXL")
+            .productImg("https://images.deliveryhero.io/image/pedidosya/profile-headers/mi-gusto-header-custom.jpg")
+            .description("Calabresa gigante")
+            .price(1600.00)
+            .build()
+
+        val product12 = Product.Builder()
+            .id(121212121212L)
+            .marketId(333333L)
+            .name("Latte")
+            .productImg("https://lh5.googleusercontent.com/p/AF1QipNiT5ZHwMZPVoH1_o1Pj7dT0jEKt1_dTkfag52o=w300-h450-p-k-no")
+            .price(320.00)
+            .build()
+
+        val product13 = Product.Builder()
+            .id(131313131313L)
+            .marketId(333333L)
+            .name("Cheesecake chocolate blanco")
+            .productImg("https://lh5.googleusercontent.com/p/AF1QipNua6I8hu1efEvtA-8W4QSCNyNj_sHyRhLwNnOs=w300-h450-p-k-no")
+            .description("Cheesecake de chocolate blanco, frambuesas y pistacho")
+            .price(670.00)
+            .build()
+
+        val product14 = Product.Builder()
+            .id(141414141414L)
+            .marketId(333333L)
+            .name("Tostado de lomito y cheddar")
+            .productImg("https://lh5.googleusercontent.com/p/AF1QipPw92V_LG9w18ldjkLScj8n7zw6pXfG5wGdVXg6=w300-h225-p-k-no")
+            .price(490.00)
+            .build()
+
+        val product15 = Product.Builder()
+            .id(151515151515L)
+            .marketId(444444L)
+            .name("Pizza de jamón crudo y rúcula")
+            .productImg("https://lh5.googleusercontent.com/p/AF1QipMLL793G6TcIBLaahg8n-q7u5oIPTpVUWg61kNX=w300-h225-p-k-no")
+            .price(650.00)
+            .build()
+
+
+
+        return listOf(product1, product2, product3, product4, product5, product6, product7, product8,
+            product9, product10, product11, product12, product13, product14, product15)
+    }
+}
