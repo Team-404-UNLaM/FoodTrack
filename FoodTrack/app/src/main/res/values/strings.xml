@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_location">Locales cercanos</string>
     <string name="error_message">Ocurrió un error. Por favor, contactese con un administrador.</string>
     <string name="search_market">Buscar local</string>
     <string name="no_name_mayus">NO NAME</string>
