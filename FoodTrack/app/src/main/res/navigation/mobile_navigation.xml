@@ -49,4 +49,5 @@
         android:name="com.team404.foodtrack.ui.market.menu.MenuFragment"
         android:label="MENU"
         tools:layout="@layout/fragment_menu" />
+
 </navigation>

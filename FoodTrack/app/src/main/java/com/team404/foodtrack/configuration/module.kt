@@ -8,6 +8,7 @@ val appModule = module {
     factory { MarketRepository(get()) }
     factory { CouponRepository(get()) }
     factory { MenuRepository(get()) }
+
 }
 
 val mockServerModule = module {
