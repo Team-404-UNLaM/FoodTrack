@@ -12,4 +12,8 @@ class MarketRepository(private val mockServer: MockServer) {
     fun searchById(id: Long) : Market {
         return mockServer.searchMarketById(id)
     }
+
+    fun searchByName(name: String) : List<Market> {
+        return mockServer.searchMarkets(name)
+    }
 }

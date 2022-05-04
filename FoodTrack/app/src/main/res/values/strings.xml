@@ -10,6 +10,12 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="error_message">Ocurrió un error. Por favor, contactese con un administrador.</string>
+    <string name="search_market">Buscar local</string>
+    <string name="no_name_mayus">NO NAME</string>
+    <string name="no_name_minus">No name</string>
+    <string name="go_to_make_order">Hacer pedido al local</string>
+    <string name="fake_street">Calle Falsa 123</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

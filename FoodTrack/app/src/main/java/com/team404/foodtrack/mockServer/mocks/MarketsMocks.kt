@@ -16,6 +16,7 @@ object MarketsMocks {
                 -34.58378,
                 -58.43586
             ))
+            .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.5)
             .description("Restaurant tranquilo, especializado en hamburguesas y acompañamientos caseros")
             .type(listOf("Bar"))
@@ -31,6 +32,7 @@ object MarketsMocks {
                 -34.58511,
                 -58.44113
             ))
+            .marketImg("https://lh6.googleusercontent.com/-KAQN0rCtfHQ/AAAAAAAAAAI/AAAAAAAAAAA/uG_1oErDfsI/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.9)
             .description("Tus empanadas favoritas en un solo lugar")
             .type(listOf("Restaurant"))
@@ -46,6 +48,7 @@ object MarketsMocks {
                 -34.58634,
                 -58.44069
             ))
+            .marketImg("https://lh5.googleusercontent.com/-RodSLM67Y0U/AAAAAAAAAAI/AAAAAAAAAAA/22-YOVR6zKk/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.0)
             .description("Lugar ideal para tus desayunos o meriendas, conversar tranquilo y disfrutar de un buen cafe")
             .type(listOf("Cafeteria", "Restaurant"))

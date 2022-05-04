@@ -1,5 +1,6 @@
 package com.team404.foodtrack.domain.repositories
 
+import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.domain.persistence.MarketFavoritesDao
 
@@ -7,6 +8,10 @@ class MarketFavoritesRepository(private val marketFavoritesDao: MarketFavoritesD
 
     suspend fun search() : List<MarketFavorites> {
         return marketFavoritesDao.search()
+    }
+
+    suspend fun searchByMarketId(marketId: Long) : MarketFavorites? {
+        return marketFavoritesDao.searchByMarketId(marketId)
     }
 
     suspend fun insert(marketFavorites: MarketFavorites) {
