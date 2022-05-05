@@ -31,4 +31,9 @@
         android:name="com.team404.foodtrack.ui.market.MarketListFragment"
         android:label="MARKETS"
         tools:layout="@layout/fragment_market_list" />
+    <fragment
+        android:id="@+id/nav_qr_scanner"
+        android:name="com.team404.foodtrack.ui.camera.CameraFragment"
+        android:label="@string/menu_qr_scan"
+        tools:layout="@layout/fragment_camera"/>
 </navigation>
