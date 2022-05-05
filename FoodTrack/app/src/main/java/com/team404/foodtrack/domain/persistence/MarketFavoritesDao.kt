@@ -13,7 +13,7 @@ interface MarketFavoritesDao {
     suspend fun search() : List<MarketFavorites>
 
     @Query("SELECT * FROM MARKET_FAVORITES WHERE marketId = :marketId")
-    suspend fun getByMarketId(marketId: Long) : MarketFavorites
+    suspend fun searchByMarketId(marketId: Long) : MarketFavorites?
 
     @Insert
     suspend fun insert(marketFavorites: MarketFavorites)
