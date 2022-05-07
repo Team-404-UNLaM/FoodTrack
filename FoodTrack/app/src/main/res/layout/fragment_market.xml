@@ -67,7 +67,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/is_favorite"
                     app:layout_constraintVertical_bias="0.0"
-                    tools:src="@tools:sample/avatars" />
+                    app:srcCompat="@drawable/ic_market" />
 
                 <TextView
                     android:id="@+id/market_name"
@@ -166,6 +166,34 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btn_go_to_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_rounded_rectangle"
+                    android:focusable="true"
+                    android:foregroundGravity="center"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/btn_go_to_make_order"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0">
+                    <TextView
+                        android:id="@+id/btn_go_to_menu_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_menu"
+                        android:textColor="@color/text"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.001" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/btn_go_to_make_order"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,7 +216,6 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.001" />
