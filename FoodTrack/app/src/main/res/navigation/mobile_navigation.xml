@@ -20,7 +20,10 @@
         android:name="com.team404.foodtrack.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-
+    <fragment
+        android:id="@+id/cuponFragment"
+        android:name="com.team404.foodtrack.ui.cuponUI.CuponFragment"
+        android:label="CuponFragment" />
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.team404.foodtrack.ui.slideshow.SlideshowFragment"

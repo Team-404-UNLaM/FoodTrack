@@ -34,6 +34,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 dependencies {
@@ -42,13 +43,14 @@ dependencies {
     def lifeCycleVersion = "2.4.1"
     def coroutinesVersion = "1.3.9"
     def koinVersion = "3.1.3"
-    def roomVersion = "2.3.0"
+    def roomVersion = "2.4.2"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // NAVIGATION
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
@@ -92,4 +94,9 @@ dependencies {
     //PERMISSIONS
     implementation "androidx.activity:activity-ktx:1.6.0-alpha03"
     implementation "androidx.fragment:fragment-ktx:1.5.0-beta01"
+
+    //recycler view
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+    implementation 'com.github.Spikeysanju:ZoomRecylerLayout:1.0'
 }
