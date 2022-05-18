@@ -21,5 +21,9 @@
             android:icon="@drawable/ic_location"
             android:title="@string/menu_location" />
 
+        <item
+            android:id="@+id/cuponFragment"
+            android:title="Coupons" />
+
     </group>
 </menu>

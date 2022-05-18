@@ -20,7 +20,10 @@
         android:name="com.team404.foodtrack.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-
+    <fragment
+        android:id="@+id/cuponFragment"
+        android:name="com.team404.foodtrack.ui.cuponUI.CuponFragment"
+        android:label="CuponFragment" />
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.team404.foodtrack.ui.slideshow.SlideshowFragment"
@@ -39,7 +42,16 @@
         android:id="@+id/marketFragment"
         android:name="com.team404.foodtrack.ui.market.MarketFragment"
         android:label="LOCAL"
-        tools:layout="@layout/fragment_market" />
+        tools:layout="@layout/fragment_market" >
+        <action
+            android:id="@+id/action_marketFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.team404.foodtrack.ui.market.menu.MenuFragment"
+        android:label="MENU"
+        tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.team404.foodtrack.ui.maps.MapsFragment"
