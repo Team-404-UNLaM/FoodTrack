@@ -17,19 +17,25 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.team404.foodtrack.R
 import com.team404.foodtrack.domain.repositories.MarketRepository
-import com.team404.foodtrack.mockServer.MockServer
+import org.koin.android.ext.android.inject
 
+@SuppressLint("MissingPermission")
 class MapsFragment : Fragment() {
 
-    private val callback = OnMapReadyCallback { googleMap ->
+    private val marketRepository : MarketRepository by inject()
+    private lateinit var map: GoogleMap
 
-        val markets = MarketRepository(MockServer()).search()
+    companion object {
+        const val REQUEST_CODE_LOCATION = 2008
+    }
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+
+        val markets = marketRepository.search()
 
         markets.forEach { market ->
             val marketLocation = LatLng(market.address!!.latitude, market.address.longitude)
@@ -40,17 +46,19 @@ class MapsFragment : Fragment() {
             )
         }
 
-        val currentLocation = LatLng(-34.670722304934316, -58.5628481153441)
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-        googleMap.addMarker(MarkerOptions()
-            .position(currentLocation)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-        )
-        googleMap.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(currentLocation, 18f),
-            3000,
-            null
-        )
+        map = googleMap
+        enableLocation()
+
+        if (map.isMyLocationEnabled) {
+            googleMap.isMyLocationEnabled = true
+        } else {
+            val currentLocation = LatLng(-34.670722304934316, -58.5628481153441)
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(currentLocation, 18f),
+                3000,
+                null
+            )
+        }
 
     }
 
@@ -68,4 +76,51 @@ class MapsFragment : Fragment() {
         mapFragment?.getMapAsync(callback)
     }
 
+    private fun isLocationPermissionGranted() : Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun enableLocation() {
+        if(!::map.isInitialized) return
+        if(isLocationPermissionGranted()) {
+            map.isMyLocationEnabled = true
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    private fun requestLocationPermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(requireContext(), "Ve a ajustes y acepta los permisos", Toast.LENGTH_LONG).show()
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_LOCATION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            REQUEST_CODE_LOCATION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    map.isMyLocationEnabled = true
+                } else {
+                    Toast.makeText(requireContext(), "Para activar la localizacion ve a ajustes y acepta los permisos", Toast.LENGTH_LONG).show()
+                }
+            }
+            else -> {}
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!::map.isInitialized) return
+        if(!isLocationPermissionGranted()) {
+            map.isMyLocationEnabled = false
+            Toast.makeText(requireContext(), "Para activar la localizacion ve a ajustes y acepta los permisos", Toast.LENGTH_LONG).show()
+        }
+    }
 }
