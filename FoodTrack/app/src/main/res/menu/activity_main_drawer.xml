@@ -17,11 +17,18 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
+            android:id="@+id/mapsFragment"
+            android:icon="@drawable/ic_location"
+            android:title="@string/menu_location" />
+
+        <item
             android:id="@+id/nav_qr_scanner"
             android:icon="@drawable/ic_qr_code_scanner"
             android:title="@string/menu_qr_scan" />
         <item
             android:id="@+id/cuponFragment"
-            android:title="Coupons" />
+            android:icon="@drawable/ic_coupon"
+            android:title="@string/menu_coupons" />
+
     </group>
 </menu>
