@@ -56,5 +56,9 @@
         android:id="@+id/nav_qr_scanner"
         android:label="@string/menu_qr_scan"
         android:name="com.team404.foodtrack.ui.camera.CameraFragment"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_nav_qr_scanner_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
 </navigation>
