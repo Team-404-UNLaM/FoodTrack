@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_gallery" />
     <fragment
         android:id="@+id/cuponFragment"
-        android:name="com.team404.foodtrack.ui.cuponUI.CuponFragment"
+        android:name="com.team404.foodtrack.ui.cuponUI.CouponFragment"
         android:label="CuponFragment" />
     <fragment
         android:id="@+id/nav_slideshow"

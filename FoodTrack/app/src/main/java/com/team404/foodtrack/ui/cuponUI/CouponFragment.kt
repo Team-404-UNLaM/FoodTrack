@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.team404.foodtrack.data.Coupon
-import com.team404.foodtrack.databinding.FragmentCuponBinding
-import com.team404.foodtrack.domain.repositories.CouponRepository
-import com.team404.foodtrack.mockServer.MockServer
+import com.team404.foodtrack.databinding.FragmentCouponBinding
+import com.team404.foodtrack.domain.services.CouponService
+import org.koin.android.ext.android.inject
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
 
-class CuponFragment : Fragment() {
+class CouponFragment : Fragment() {
 
-    val mockServer = MockServer()
-    private val repository = CouponRepository(mockServer)
-    private var _binding: FragmentCuponBinding? = null
+    private val couponService: CouponService by inject()
+    private var _binding: FragmentCouponBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -28,9 +27,10 @@ class CuponFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCuponBinding.inflate(inflater, container, false)
+        _binding = FragmentCouponBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        setupCarousel(repository.search())
+        setupCarousel(couponService.searchCoupons())
+
         return root
     }
 

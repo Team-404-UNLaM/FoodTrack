@@ -2,6 +2,7 @@ package com.team404.foodtrack.mockServer.mocks
 
 import com.team404.foodtrack.data.Market
 import com.team404.foodtrack.data.MarketAddress
+import com.team404.foodtrack.data.MarketTypes
 
 object MarketsMocks {
 
@@ -20,7 +21,7 @@ object MarketsMocks {
             .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.5)
             .description("Restaurant tranquilo, especializado en hamburguesas y acompañamientos caseros")
-            .type(listOf("Bar"))
+            .type(listOf(MarketTypes.BAR))
             .build()
 
         val miGusto = Market.Builder()
@@ -36,7 +37,7 @@ object MarketsMocks {
             .marketImg("https://lh6.googleusercontent.com/-KAQN0rCtfHQ/AAAAAAAAAAI/AAAAAAAAAAA/uG_1oErDfsI/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.9)
             .description("Tus empanadas favoritas en un solo lugar")
-            .type(listOf("Restaurant"))
+            .type(listOf(MarketTypes.RESTAURANT))
             .build()
 
         val malcriadaCafe = Market.Builder()
@@ -52,7 +53,7 @@ object MarketsMocks {
             .marketImg("https://lh5.googleusercontent.com/-RodSLM67Y0U/AAAAAAAAAAI/AAAAAAAAAAA/22-YOVR6zKk/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.0)
             .description("Lugar ideal para tus desayunos o meriendas, conversar tranquilo y disfrutar de un buen cafe")
-            .type(listOf("Cafeteria", "Restaurant"))
+            .type(listOf(MarketTypes.CAFETERIA, MarketTypes.RESTAURANT))
             .build()
 
         val lucille = Market.Builder()
@@ -67,7 +68,7 @@ object MarketsMocks {
             ))
             .stars(4.8)
             .description("Resto-bar para disfrutar de buena comida, con buena musica y buen acompañamiento")
-            .type(listOf("Bar", "Restaurant"))
+            .type(listOf(MarketTypes.BAR, MarketTypes.RESTAURANT))
             .build()
 
         val hood = Market.Builder()
@@ -83,7 +84,7 @@ object MarketsMocks {
             .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
             .stars(4.8)
             .description("La mejor hamburguesa del oeste, ¿Te la vas a perder?")
-            .type(listOf("Bar"))
+            .type(listOf(MarketTypes.BAR))
             .build()
 
         val clubCervecero = Market.Builder()
@@ -99,7 +100,7 @@ object MarketsMocks {
             .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
             .stars(3.2)
             .description("Pizzas, hamburguesas y papitas frente a tu universidad favorita")
-            .type(listOf("Bar"))
+            .type(listOf(MarketTypes.BAR))
             .build()
 
         val barEnfrente = Market.Builder()
@@ -115,7 +116,7 @@ object MarketsMocks {
             .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
             .stars(3.2)
             .description("La mejor comida, la mejor musica, el mejor plan")
-            .type(listOf("Bar"))
+            .type(listOf(MarketTypes.BAR))
             .build()
 
         return listOf(bigPons, miGusto, malcriadaCafe, lucille, hood, clubCervecero, barEnfrente)
