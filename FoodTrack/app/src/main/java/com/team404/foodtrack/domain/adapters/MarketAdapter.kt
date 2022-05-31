@@ -60,7 +60,7 @@ class MarketAdapter (private val viewClickListener: (Market) -> Unit, private va
             }
         }
 
-        holder.binding.btnViewMarket.setOnClickListener { viewClickListener(market) }
+        holder.binding.marketCardSection.setOnClickListener { viewClickListener(market) }
         holder.binding.isFavorite.setOnClickListener { favoriteClickListener(market) }
     }
 
