@@ -1,13 +1,15 @@
 package com.team404.foodtrack.configuration
 
 import com.team404.foodtrack.domain.repositories.*
+import com.team404.foodtrack.domain.services.CouponService
 import com.team404.foodtrack.mockServer.MockServer
 import org.koin.dsl.module
 
 val appModule = module {
-    factory { MarketRepository(get()) }
-    factory { CouponRepository(get()) }
-    factory { MenuRepository(get()) }
+    single { MarketRepository(get()) }
+    single { CouponRepository(get()) }
+    single { MenuRepository(get()) }
+    factory { CouponService(get(), get()) }
 }
 
 val mockServerModule = module {
