@@ -2,11 +2,9 @@ package com.team404.foodtrack.ui.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,37 +12,42 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.team404.foodtrack.R
+import com.team404.foodtrack.data.MarketData
+import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentCameraBinding
+import com.team404.foodtrack.domain.factories.CameraViewModelFactory
+import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.utils.FlashImplementation
 import com.team404.foodtrack.utils.VibratorImplementation
+import org.koin.android.ext.android.inject
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
 class CameraFragment : Fragment() {
     private  var _binding: FragmentCameraBinding? = null
-    private var previewView: PreviewView? = null
+    private val binding get() = _binding!!
     private var cameraProvider: ProcessCameraProvider? = null
     private var cameraSelector: CameraSelector? = null
     private var previewUseCase: Preview? = null
     private var qrAnalysisUseCase: ImageAnalysis? = null
-    private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-    private lateinit var cameraContext: Context
-
-    private val binding get() = _binding!!
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        cameraContext = context
-    }
+    private lateinit var cameraExecutor: ExecutorService
+    private var camera: Camera? = null
+    private lateinit var viewModel : CameraViewModel
+    private lateinit var factory: CameraViewModelFactory
+    private val marketRepository : MarketRepository by inject()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -54,30 +57,37 @@ class CameraFragment : Fragment() {
                 startCamera()
             } else {
                 Toast.makeText(
-                    cameraContext,
+                    requireContext(),
                     "Permissions not granted by the user.",
                     Toast.LENGTH_LONG).show()
             }
         }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCameraBinding.inflate(inflater,container,false)
-        val root : View = binding.root
-        getViews()
-        showCameraPreview()
-        return root
+        _binding = FragmentCameraBinding.inflate(inflater, container, false)
+        return binding.root
     }
-    private fun getViews() {
-        previewView = binding.viewFinder
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        factory = CameraViewModelFactory(marketRepository)
+        viewModel = ViewModelProvider(this, factory).get(CameraViewModel::class.java)
+
+        // Initialize our background executor
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        binding.viewFinder.post {
+            showCameraPreview()
+            setUpObserver(binding.root)
+        }
     }
 
 
     private fun showCameraPreview(){
-        if (ContextCompat.checkSelfPermission(cameraContext, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_GRANTED) {
             startCamera()
         } else{
@@ -97,7 +107,8 @@ class CameraFragment : Fragment() {
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
 
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(cameraContext)
+        //Set camera provider
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             cameraProvider = cameraProviderFuture.get()
 
@@ -105,12 +116,14 @@ class CameraFragment : Fragment() {
             //Bind camera use cases
             bindCameraUseCases()
 
-        }, ContextCompat.getMainExecutor(cameraContext))
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
+
     private fun bindCameraUseCases() {
         bindPreviewUseCase()
         bindAnalyseUseCase()
     }
+
     private fun bindPreviewUseCase() {
         if (cameraProvider == null) {
             return
@@ -118,22 +131,26 @@ class CameraFragment : Fragment() {
         if (cameraProvider != null) {
             cameraProvider!!.unbind(previewUseCase)
         }
-        previewUseCase = Preview.Builder().setTargetRotation(previewView!!.display.rotation).build()
-        previewUseCase!!.setSurfaceProvider(previewView!!.surfaceProvider)
+
+        previewUseCase = Preview.Builder()
+            .setTargetRotation(binding.viewFinder.display.rotation).build()
 
         try {
-            val camera = cameraProvider!!.bindToLifecycle(
-                this,
+            camera = cameraProvider!!.bindToLifecycle(
+                viewLifecycleOwner,
                 cameraSelector!!,
                 previewUseCase
-            )
-            FlashImplementation.flashListener(camera, binding.flashOnOffButton)
+            ).also{ camera ->
+                FlashImplementation.flashListener(camera, binding.flashOnOffButton)
+            }
+            previewUseCase?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
         } catch (illegalStateException: IllegalStateException) {
             Log.e(TAG, illegalStateException.message ?: "IllegalStateException")
         } catch (illegalArgumentException: IllegalArgumentException) {
             Log.e(TAG, illegalArgumentException.message ?: "IllegalArgumentException")
         }
     }
+
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindAnalyseUseCase() {
         if (cameraProvider == null) {
@@ -142,14 +159,17 @@ class CameraFragment : Fragment() {
         if (cameraProvider != null) {
             cameraProvider!!.unbind(qrAnalysisUseCase)
         }
+
         val options = BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC)
             .build()
+
         val barcodeScanner : BarcodeScanner = BarcodeScanning.getClient(options)
+
         qrAnalysisUseCase = ImageAnalysis
             .Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            .setTargetRotation(previewView!!.display.rotation)
+            .setTargetRotation(binding.viewFinder.display.rotation)
             .build()
             .also { qrAnalysisUseCase ->
                 qrAnalysisUseCase.setAnalyzer(cameraExecutor,
@@ -159,10 +179,9 @@ class CameraFragment : Fragment() {
                 )
             }
 
-
         try {
             cameraProvider!!.bindToLifecycle(
-                this,
+                viewLifecycleOwner,
                 cameraSelector!!,
                 qrAnalysisUseCase
             )
@@ -201,15 +220,37 @@ class CameraFragment : Fragment() {
     private fun processResult(result: String) {
         qrAnalysisUseCase?.clearAnalyzer()
         cameraProvider!!.unbind(qrAnalysisUseCase)
-        VibratorImplementation.vibrate(cameraContext)
-        binding.qrCodeContentTextView.visibility = View.VISIBLE
-        binding.qrCodeContentTextView.text = result
+        VibratorImplementation.vibrate(requireContext())
+        setUpMarketId(result)
         bindAnalyseUseCase()
+    }
+
+    private fun setUpMarketId(result: String) {
+        try{
+            val marketId = result.toLong()
+            viewModel.getMarketData(binding.root,marketId)
+        }catch(e:NumberFormatException){
+            Snackbar.make(binding.root, "QR no asociado a Food Track", Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setUpObserver(root: View) {
+        viewModel.marketData.observe(viewLifecycleOwner,{marketData ->
+            goToMarketMenu(root,marketData)
+        })
+    }
+
+    private fun goToMarketMenu(root: View, marketData: MarketData) {
+        val order = Order.Builder().marketId(marketData.market?.id!!)
+        val bundle = Bundle()
+        bundle.putString("order", GsonBuilder().create().toJson(order))
+        Navigation.findNavController(root)
+            .navigate(R.id.action_nav_qr_scanner_to_selectOrderProductsFragment, bundle)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.qrCodeContentTextView.visibility = View.GONE
+       requestPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
     override fun onPause(){
         super.onPause()
@@ -217,6 +258,12 @@ class CameraFragment : Fragment() {
     }
     override fun onDestroy() {
         super.onDestroy()
+        cameraExecutor.shutdown()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
         cameraExecutor.shutdown()
     }
 
