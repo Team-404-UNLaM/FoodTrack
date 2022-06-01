@@ -1,10 +1,12 @@
 package com.team404.foodtrack.ui.order
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,6 +24,7 @@ import com.team404.foodtrack.domain.factories.SelectedProductViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.domain.repositories.MenuRepository
 import com.team404.foodtrack.domain.repositories.ProductRepository
+import com.team404.foodtrack.domain.services.CouponService
 import com.team404.poketeam.domain.adapters.SelectedProductAdapter
 import org.koin.android.ext.android.inject
 
@@ -37,6 +40,7 @@ class SelectOrderProductsFragment : Fragment() {
     private val menuRepository : MenuRepository by inject()
     private val marketRepository: MarketRepository by inject()
     private val productRepository: ProductRepository by inject()
+    private val couponService: CouponService by inject()
 
     private lateinit var order: Order.Builder
 
@@ -84,9 +88,29 @@ class SelectOrderProductsFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.btnGoToPay.setOnClickListener {
+            val coupons = couponService.searchCouponsForOrder(order.marketId!!, order.totalPrice!!)
             val bundle = Bundle()
             bundle.putString("order", GsonBuilder().create().toJson(order))
-            Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+
+            if(coupons.isNotEmpty()) {
+                val builder = AlertDialog.Builder(it.context)
+                builder.setTitle("Cupones")
+                builder.setMessage("Existen cupones aplicables a su pedido.\n¿Desea seleccionar aplicar un cupon a su pedido?")
+                builder.setPositiveButton("Si", DialogInterface.OnClickListener{ dialog, id ->
+                    bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
+                    dialog.cancel()
+                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+                })
+                builder.setNegativeButton("No", DialogInterface.OnClickListener{ dialog, id ->
+                    dialog.cancel()
+                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+                })
+
+                val alert = builder.create()
+                alert.show()
+            } else {
+                Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+            }
         }
     }
 
@@ -184,6 +208,7 @@ class SelectOrderProductsFragment : Fragment() {
             totalPrice = totalPrice.plus(product.price?.times(quantity) ?: 0.0)
         }
 
+        order.totalPrice(totalPrice)
         binding.orderTotalPrice.text = "$ $totalPrice"
     }
 }
