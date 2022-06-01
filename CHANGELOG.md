@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0
+
+- [#52](https://github.com/Team-404-UNLaM/FoodTrack/pull/52) Create products selection screen for order flow
+
 ## 1.1.0
 
 - [#39](https://github.com/Team-404-UNLaM/FoodTrack/pull/39) Create menu view
