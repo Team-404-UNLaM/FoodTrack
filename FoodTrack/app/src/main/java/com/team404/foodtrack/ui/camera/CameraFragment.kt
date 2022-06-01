@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -24,6 +25,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.MarketData
+import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentCameraBinding
 import com.team404.foodtrack.domain.factories.CameraViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketRepository
@@ -239,12 +241,11 @@ class CameraFragment : Fragment() {
     }
 
     private fun goToMarketMenu(root: View, marketData: MarketData) {
+        val order = Order.Builder().marketId(marketData.market?.id!!)
         val bundle = Bundle()
-        bundle.putLong("marketId", marketData.market!!.id!!)
-        bundle.putString("marketName", marketData.market.name)
-        bundle.putString("marketImg", marketData.market.marketImg)
+        bundle.putString("order", GsonBuilder().create().toJson(order))
         Navigation.findNavController(root)
-            .navigate(R.id.action_nav_qr_scanner_to_menuFragment, bundle)
+            .navigate(R.id.action_nav_qr_scanner_to_selectOrderProductsFragment, bundle)
     }
 
     override fun onResume() {
