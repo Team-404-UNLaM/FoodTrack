@@ -15,6 +15,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.barcode.BarcodeScanner
@@ -27,6 +28,7 @@ import com.team404.foodtrack.data.MarketData
 import com.team404.foodtrack.databinding.FragmentCameraBinding
 import com.team404.foodtrack.domain.factories.CameraViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketRepository
+import com.team404.foodtrack.ui.home.HomeFragment
 import com.team404.foodtrack.utils.FlashImplementation
 import com.team404.foodtrack.utils.VibratorImplementation
 import org.koin.android.ext.android.inject
@@ -239,12 +241,13 @@ class CameraFragment : Fragment() {
     }
 
     private fun goToMarketMenu(root: View, marketData: MarketData) {
+        val navOptions = NavOptions.Builder().setPopUpTo(R.id.nav_qr_scanner,true).build()
         val bundle = Bundle()
         bundle.putLong("marketId", marketData.market!!.id!!)
         bundle.putString("marketName", marketData.market.name)
         bundle.putString("marketImg", marketData.market.marketImg)
         Navigation.findNavController(root)
-            .navigate(R.id.action_nav_qr_scanner_to_menuFragment, bundle)
+            .navigate(R.id.action_nav_qr_scanner_to_menuFragment, bundle,navOptions)
     }
 
     override fun onResume() {
