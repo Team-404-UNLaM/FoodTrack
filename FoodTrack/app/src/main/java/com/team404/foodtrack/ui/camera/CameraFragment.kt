@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
+
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -25,10 +27,10 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.MarketData
+import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentCameraBinding
 import com.team404.foodtrack.domain.factories.CameraViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketRepository
-import com.team404.foodtrack.ui.home.HomeFragment
 import com.team404.foodtrack.utils.FlashImplementation
 import com.team404.foodtrack.utils.VibratorImplementation
 import org.koin.android.ext.android.inject
@@ -242,12 +244,11 @@ class CameraFragment : Fragment() {
 
     private fun goToMarketMenu(root: View, marketData: MarketData) {
         val navOptions = NavOptions.Builder().setPopUpTo(R.id.nav_qr_scanner,true).build()
+        val order = Order.Builder().marketId(marketData.market?.id!!)
         val bundle = Bundle()
-        bundle.putLong("marketId", marketData.market!!.id!!)
-        bundle.putString("marketName", marketData.market.name)
-        bundle.putString("marketImg", marketData.market.marketImg)
+        bundle.putString("order", GsonBuilder().create().toJson(order))
         Navigation.findNavController(root)
-            .navigate(R.id.action_nav_qr_scanner_to_menuFragment, bundle,navOptions)
+            .navigate(R.id.action_nav_qr_scanner_to_selectOrderProductsFragment, bundle,navOptions)
     }
 
     override fun onResume() {

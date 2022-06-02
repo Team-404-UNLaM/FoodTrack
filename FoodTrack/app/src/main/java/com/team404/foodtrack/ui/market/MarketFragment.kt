@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.MarketData
+import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentMarketBinding
 import com.team404.foodtrack.domain.factories.MarketViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
@@ -46,7 +48,6 @@ class MarketFragment : Fragment() {
     }
 
     private fun setUpListeners(root: View, marketId: Long) {
-        goToMakeOrderListener(root, marketId)
         isFavoriteListener(marketId)
     }
 
@@ -57,6 +58,7 @@ class MarketFragment : Fragment() {
     private fun setUpObserver(root: View) {
         viewModel.marketData.observe(viewLifecycleOwner, { marketData ->
             setUpMarketView(marketData)
+            goToMakeOrderListener(root, marketData)
             goToMenuListener(root, marketData)
         })
     }
@@ -95,14 +97,14 @@ class MarketFragment : Fragment() {
         }
     }
 
-    private fun goToMakeOrderListener(root: View, marketId: Long) {
-        // binding.btnGoToMakeOrder.setOnClickListener { marketId: Long ->
-        // TODO: Uncomment and modify when Order flow exist
-            //  *val bundle = Bundle()
-            //  market.id?.let { bundle.putLong("marketId", it) }
-            //  Navigation.findNavController(root)
-        //  .navigate(R.id.action_navigation_marketFragment_to_x, bundle)*/
-        // }
+    private fun goToMakeOrderListener(root: View, marketData: MarketData) {
+        binding.btnGoToMakeOrder.setOnClickListener {
+            val order = Order.Builder().marketId(marketData.market?.id!!)
+            val bundle = Bundle()
+            bundle.putString("order", GsonBuilder().create().toJson(order))
+            Navigation.findNavController(root)
+                .navigate(R.id.action_marketFragment_to_selectOrderProductsFragment, bundle)
+        }
     }
 
     private fun isFavoriteListener(marketId: Long) {
