@@ -19,7 +19,12 @@ object MenuItemsMocks {
         val products6 = productRepository.searchByIds(listOf(121212121212L))
         val products7 = productRepository.searchByIds(listOf(131313131313L))
         val products8 = productRepository.searchByIds(listOf(141414141414L))
-        val products9 = productRepository.searchByIds(listOf(151515151515L))
+        val products9 = productRepository.searchByIds(listOf(151515151515L, 161616161616L))
+        val product10 = productRepository.searchByIds(listOf(171717171717L))
+        val product11 = productRepository.searchByIds(listOf(181818181818L, 191919191919L))
+        val product12 = productRepository.searchByIds(listOf(202020202020L))
+        val product13 = productRepository.searchByIds(listOf(212121212121L))
+        val product14 = productRepository.searchByIds(listOf(222222222222L, 232323232323L))
 
         val menuItem1 = MenuItem.Builder()
             .id(111111L)
@@ -84,6 +89,42 @@ object MenuItemsMocks {
             .products(products9)
             .build()
 
-        return listOf(menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6, menuItem7, menuItem8, menuItem9)
+        val menuItem10 = MenuItem.Builder()
+            .id(101010101010L)
+            .menuId(444444L)
+            .category("Nuestras hamburguesas")
+            .products(product10)
+            .build()
+
+        val menuItem11 = MenuItem.Builder()
+            .id(111111111111L)
+            .menuId(555555L)
+            .category("Nuestras hamburguesas")
+            .products(product11)
+            .build()
+
+        val menuItem12 = MenuItem.Builder()
+            .id(121212121212L)
+            .menuId(666666L)
+            .category("Starters")
+            .products(product12)
+            .build()
+
+        val menuItem13 = MenuItem.Builder()
+            .id(131313131313L)
+            .menuId(666666L)
+            .category("Pizzas")
+            .products(product13)
+            .build()
+
+        val menuItem14 = MenuItem.Builder()
+            .id(141414141414L)
+            .menuId(777777L)
+            .category("Sándwiches")
+            .products(product14)
+            .build()
+
+        return listOf(menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6, menuItem7, menuItem8,
+            menuItem9, menuItem10, menuItem11, menuItem12, menuItem13, menuItem14)
     }
 }
