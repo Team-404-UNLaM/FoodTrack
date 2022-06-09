@@ -2,11 +2,10 @@ package com.team404.foodtrack.ui.order
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.gson.GsonBuilder
 import com.team404.foodtrack.R
@@ -14,6 +13,7 @@ import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentSelectOrderPaymentMethodBinding
 import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.domain.repositories.ProductRepository
+import com.team404.foodtrack.utils.DateAndTime
 import org.koin.android.ext.android.inject
 
 class SelectOrderPaymentMethodFragment : Fragment() {
@@ -41,10 +41,22 @@ class SelectOrderPaymentMethodFragment : Fragment() {
 
     private fun makeMessageToSendByWhatsApp(order: Order.Builder?) {
         if(order !=null){
-            val messageToSend =
-                "Hola ${getMarketName(order.marketId)}\nAcabo de realizar el pedido #${order.id} de:\n${
-                    getProducts(order.products)
-                }\nPor la cantidad de: $${order.totalPrice}\n\nEquipo de Food Track"
+                    val messageToSend = """
+                        #Hola ${getMarketName(order.marketId)}${String(Character.toChars(0x2757))}
+                        #Acabo de realizar un pedido, este es el detalle:
+                        #
+                        #Orden #${order.id}
+                        #${DateAndTime.getDateAndTime()}
+                        #
+                        #${getProducts(order.products)}
+                        #Forma de Entrega:
+                        #${String(Character.toChars(0x1F4CC))}Método de entrega:
+                        #${String(Character.toChars(0x1F4CC))}Retira: usuario
+                        #
+                        #Total del pedido: ${String(Character.toChars(0x1F4B2))}${order.totalPrice}
+                        #
+                        #Equipo de Food Track
+                    """.trimMargin("#")
             val marketNumber = getMarketNumber(order.marketId)
             if (marketNumber != null) {
                 sendMessageByWhatsApp(messageToSend, marketNumber)
@@ -73,15 +85,15 @@ class SelectOrderPaymentMethodFragment : Fragment() {
     private fun getProducts(products: MutableMap<Long, Int>?): String {
         var productsMessage = ""
         products?.forEach { (key,value) ->
-            val productToAddToProductList = "${replaceProductKeyForProductName(key)} $value"+"u."+"\n"
+            val product =productRepository.searchById(key)
+            val checkUnicode : Int = 0x2705
+            val checkIcon = String(Character.toChars(checkUnicode))
+            val productToAddToProductList = "$checkIcon$value x ${product.name} | $${product.price}\n"
             productsMessage = productsMessage.plus(productToAddToProductList)
         }
         return productsMessage
     }
 
-    private fun replaceProductKeyForProductName(key: Long): String? {
-        return productRepository.searchById(key).name
-    }
 
     private fun setUpListeners() {
         binding.btnGoToProductSelect.setOnClickListener {
