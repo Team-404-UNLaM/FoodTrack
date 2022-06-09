@@ -16,15 +16,19 @@ object MenuItemsMocks {
         val products3 = productRepository.searchByIds(listOf(444444L, 555555L))
         val products4 = productRepository.searchByIds(listOf(888888L, 999999L))
         val products5 = productRepository.searchByIds(listOf(101010101010L, 111111111111L))
-        val products6 = productRepository.searchByIds(listOf(121212121212L))
-        val products7 = productRepository.searchByIds(listOf(131313131313L))
-        val products8 = productRepository.searchByIds(listOf(141414141414L))
+        val products6 = productRepository.searchByIds(listOf(121212121212L, 252525252525L))
+        val products7 = productRepository.searchByIds(listOf(131313131313L, 242424242424L))
+        val products8 = productRepository.searchByIds(listOf(141414141414L, 262626262626L))
         val products9 = productRepository.searchByIds(listOf(151515151515L, 161616161616L))
-        val product10 = productRepository.searchByIds(listOf(171717171717L))
+        val product10 = productRepository.searchByIds(listOf(171717171717L, 272727272727L))
         val product11 = productRepository.searchByIds(listOf(181818181818L, 191919191919L))
-        val product12 = productRepository.searchByIds(listOf(202020202020L))
-        val product13 = productRepository.searchByIds(listOf(212121212121L))
+        val product12 = productRepository.searchByIds(listOf(202020202020L, 343434343434L))
+        val product13 = productRepository.searchByIds(listOf(212121212121L, 353535353535L))
         val product14 = productRepository.searchByIds(listOf(222222222222L, 232323232323L))
+        val product15 = productRepository.searchByIds(listOf(282828282828L, 292929292929L))
+        val product16 = productRepository.searchByIds(listOf(303030303030L, 313131313131L))
+        val product17 = productRepository.searchByIds(listOf(323232323232L, 333333333333L))
+        val product18 = productRepository.searchByIds(listOf(363636363636L, 373737373737L))
 
         val menuItem1 = MenuItem.Builder()
             .id(111111L)
@@ -124,7 +128,36 @@ object MenuItemsMocks {
             .products(product14)
             .build()
 
+        val menuItem15 = MenuItem.Builder()
+            .id(151515151515L)
+            .menuId(444444L)
+            .category("Bebidas")
+            .products(product15)
+            .build()
+
+        val menuItem16 = MenuItem.Builder()
+            .id(161616161616L)
+            .menuId(555555L)
+            .category("Starters")
+            .products(product16)
+            .build()
+
+        val menuItem17 = MenuItem.Builder()
+            .id(171717171717L)
+            .menuId(555555L)
+            .category("Bebidas")
+            .products(product17)
+            .build()
+
+        val menuItem18 = MenuItem.Builder()
+            .id(181818181818L)
+            .menuId(777777L)
+            .category("Tartas")
+            .products(product18)
+            .build()
+
         return listOf(menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6, menuItem7, menuItem8,
-            menuItem9, menuItem10, menuItem11, menuItem12, menuItem13, menuItem14)
+            menuItem9, menuItem10, menuItem11, menuItem12, menuItem13, menuItem14, menuItem15, menuItem16,
+            menuItem17, menuItem18)
     }
 }
