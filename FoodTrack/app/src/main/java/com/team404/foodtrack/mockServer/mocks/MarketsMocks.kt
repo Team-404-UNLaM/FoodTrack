@@ -22,6 +22,7 @@ object MarketsMocks {
             .stars(4.5)
             .description("Restaurant tranquilo, especializado en hamburguesas y acompañamientos caseros")
             .type(listOf(MarketTypes.BAR))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val miGusto = Market.Builder()
@@ -38,6 +39,7 @@ object MarketsMocks {
             .stars(4.9)
             .description("Tus empanadas favoritas en un solo lugar")
             .type(listOf(MarketTypes.RESTAURANT))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val malcriadaCafe = Market.Builder()
@@ -54,6 +56,7 @@ object MarketsMocks {
             .stars(4.0)
             .description("Lugar ideal para tus desayunos o meriendas, conversar tranquilo y disfrutar de un buen cafe")
             .type(listOf(MarketTypes.CAFETERIA, MarketTypes.RESTAURANT))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val lucille = Market.Builder()
@@ -69,6 +72,7 @@ object MarketsMocks {
             .stars(4.8)
             .description("Resto-bar para disfrutar de buena comida, con buena musica y buen acompañamiento")
             .type(listOf(MarketTypes.BAR, MarketTypes.RESTAURANT))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val hood = Market.Builder()
@@ -85,6 +89,7 @@ object MarketsMocks {
             .stars(4.8)
             .description("La mejor hamburguesa del oeste, ¿Te la vas a perder?")
             .type(listOf(MarketTypes.BAR))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val clubCervecero = Market.Builder()
@@ -101,6 +106,7 @@ object MarketsMocks {
             .stars(3.2)
             .description("Pizzas, hamburguesas y papitas frente a tu universidad favorita")
             .type(listOf(MarketTypes.BAR))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         val barEnfrente = Market.Builder()
@@ -117,6 +123,7 @@ object MarketsMocks {
             .stars(3.2)
             .description("La mejor comida, la mejor musica, el mejor plan")
             .type(listOf(MarketTypes.BAR))
+            .cellPhone("+54 9 11 6299 6704")
             .build()
 
         return listOf(bigPons, miGusto, malcriadaCafe, lucille, hood, clubCervecero, barEnfrente)
