@@ -43,7 +43,6 @@ class SelectConsumptionModeFragment : Fragment() {
     private lateinit var consumptionModeAdapter: ConsumptionModeAdapter
     private lateinit var room: FoodTrackDB
     private var _binding: FragmentSelectConsumptionModeBinding? = null
-    private var selectedConsumptionMode: Long = 0L
     private val binding get() = _binding!!
     private val consumptionModeRepository : ConsumptionModeRepository by inject()
 

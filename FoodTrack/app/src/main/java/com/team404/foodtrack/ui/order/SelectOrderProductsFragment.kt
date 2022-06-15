@@ -99,17 +99,17 @@ class SelectOrderProductsFragment : Fragment() {
                 builder.setPositiveButton("Si", DialogInterface.OnClickListener{ dialog, id ->
                     bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
                     dialog.cancel()
-                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
                 })
                 builder.setNegativeButton("No", DialogInterface.OnClickListener{ dialog, id ->
                     dialog.cancel()
-                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
                 })
 
                 val alert = builder.create()
                 alert.show()
             } else {
-                Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
+                Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
             }
         }
 
