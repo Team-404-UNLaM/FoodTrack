@@ -25,7 +25,7 @@ import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.domain.repositories.MenuRepository
 import com.team404.foodtrack.domain.repositories.ProductRepository
 import com.team404.foodtrack.domain.services.CouponService
-import com.team404.poketeam.domain.adapters.SelectedProductAdapter
+import com.team404.foodtrack.domain.adapters.SelectedProductAdapter
 import org.koin.android.ext.android.inject
 
 class SelectOrderProductsFragment : Fragment() {

@@ -15,7 +15,7 @@ import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.data.PaymentMethod
 import com.team404.foodtrack.databinding.FragmentSelectPaymentMethodBinding
 import com.team404.foodtrack.domain.repositories.PaymentMethodRepository
-import com.team404.poketeam.domain.adapters.PaymentMethodAdapter
+import com.team404.foodtrack.domain.adapters.PaymentMethodAdapter
 import org.koin.android.ext.android.inject
 
 

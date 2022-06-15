@@ -1,23 +1,13 @@
-package com.team404.poketeam.domain.adapters
+package com.team404.foodtrack.domain.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.toColor
 import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.RecyclerView
 import com.team404.foodtrack.R
-import com.team404.foodtrack.data.ConsumptionMode
-import com.team404.foodtrack.data.Market
 import com.team404.foodtrack.data.PaymentMethod
-import com.team404.foodtrack.databinding.ItemConsumptionModeBinding
 import com.team404.foodtrack.databinding.ItemPaymentMethodBinding
-import org.koin.core.component.getScopeId
-import org.koin.core.component.getScopeName
-import kotlin.math.absoluteValue
-
 class PaymentMethodAdapter (private val selectPaymentMethodClickListener: (PaymentMethod) -> Unit) :
     RecyclerView.Adapter<PaymentMethodAdapter.PaymentMethodViewHolder>() {
 
