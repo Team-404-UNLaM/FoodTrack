@@ -11,6 +11,9 @@ import com.team404.foodtrack.domain.holders.OrderHistoryViewHolder
 
 class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit, private val viewMarketClickListener: (OrderHistory) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
 
+    private val TAKE_AWAY = "Take away"
+    private val LOCAL_CONSUMPTION = "Consumicion en el local"
+
     private val orderHistoryList = mutableListOf<OrderHistory>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
@@ -25,7 +28,7 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
         holder.binding.marketName.text = orderHistory.market.name
         holder.binding.orderDate.text = orderHistory.order.date
         holder.binding.textStars.text = orderHistory.market.stars.toString()
-        holder.binding.txtConsumptionMode.text = "Take Away" //TODO Completar con modo de consumision
+        holder.binding.txtConsumptionMode.text = resolveConsumptionMode(orderHistory)
 
 
         if (orderHistory.market.marketImg != null) {
@@ -44,6 +47,12 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
 
         holder.binding.orderCardSection.setOnClickListener { viewClickListener(orderHistory) }
         holder.binding.txtViewMarket.setOnClickListener { viewMarketClickListener(orderHistory) }
+    }
+
+    private fun resolveConsumptionMode(orderHistory: OrderHistory): String {
+        if(orderHistory.order.consumptioModeId!! == 111111L)
+            return LOCAL_CONSUMPTION
+        return TAKE_AWAY
     }
 
     override fun getItemCount(): Int {

@@ -27,14 +27,7 @@ import com.team404.foodtrack.data.ConsumptionMode
 import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.databinding.FragmentSelectConsumptionModeBinding
 import com.team404.foodtrack.domain.repositories.ConsumptionModeRepository
-import com.team404.foodtrack.ui.market.MarketListViewModel
-import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import com.team404.poketeam.domain.adapters.ConsumptionModeAdapter
-import com.team404.poketeam.domain.adapters.MarketAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 
