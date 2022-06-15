@@ -21,7 +21,7 @@ class Order(
         fun id(id: Long) = apply { this.id = id }
         fun marketId(marketId: Long) = apply { this.marketId = marketId }
         fun date(date: String) = apply { this.date = date }
-        fun consumptionModeId(consumptioModeId: Long) = apply { this.consumptionModeId = consumptionModeId }
+        fun consumptionModeId(consumptionModeId: Long) = apply { this.consumptionModeId = consumptionModeId }
         fun paymentMethodId(paymentMethodId: Long) = apply { this.paymentMethodId = paymentMethodId }
         fun products(products: MutableMap<Long, Int>) = apply { this.products = products }
         fun totalPrice(totalPrice: Double) = apply { this.totalPrice = totalPrice }
