@@ -1,4 +1,4 @@
-package com.team404.poketeam.domain.adapters
+package com.team404.foodtrack.domain.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

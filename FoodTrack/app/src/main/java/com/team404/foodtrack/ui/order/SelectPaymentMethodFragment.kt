@@ -11,21 +11,21 @@ import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.R
 import androidx.navigation.Navigation
 import com.google.gson.GsonBuilder
-import com.team404.foodtrack.data.ConsumptionMode
 import com.team404.foodtrack.data.Order
-import com.team404.foodtrack.databinding.FragmentSelectConsumptionModeBinding
-import com.team404.foodtrack.domain.repositories.ConsumptionModeRepository
-import com.team404.foodtrack.domain.adapters.ConsumptionModeAdapter
+import com.team404.foodtrack.data.PaymentMethod
+import com.team404.foodtrack.databinding.FragmentSelectPaymentMethodBinding
+import com.team404.foodtrack.domain.repositories.PaymentMethodRepository
+import com.team404.foodtrack.domain.adapters.PaymentMethodAdapter
 import org.koin.android.ext.android.inject
 
 
-class SelectConsumptionModeFragment : Fragment() {
+class SelectPaymentMethodFragment : Fragment() {
 
-    private lateinit var consumptionModeAdapter: ConsumptionModeAdapter
+    private lateinit var paymentMethodAdapter: PaymentMethodAdapter
     private lateinit var room: FoodTrackDB
-    private var _binding: FragmentSelectConsumptionModeBinding? = null
+    private var _binding: FragmentSelectPaymentMethodBinding? = null
     private val binding get() = _binding!!
-    private val consumptionModeRepository : ConsumptionModeRepository by inject()
+    private val paymentMethodRepository : PaymentMethodRepository by inject()
 
     private lateinit var order: Order.Builder
 
@@ -34,7 +34,7 @@ class SelectConsumptionModeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSelectConsumptionModeBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectPaymentMethodBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         order = GsonBuilder().create().fromJson(arguments?.getString("order"), Order.Builder::class.java)
@@ -54,34 +54,34 @@ class SelectConsumptionModeFragment : Fragment() {
     private fun injectDependencies() {
         room = FoodTrackDB.getDatabase(requireContext())
 
-        val selectConsumptionModeClickListener = { consumptionMode: ConsumptionMode ->
-            order.consumptionModeId(
-                if (order.consumptionModeId == consumptionMode.id) 0L else consumptionMode.id!!
+        val selectPatmentMethodClickListener = { paymentMethod: PaymentMethod ->
+            order.paymentMethodId(
+                if (order.paymentMethodId == paymentMethod.id) 0L else paymentMethod.id!!
             )
-            consumptionModeAdapter.notifyDataSetChanged()
+            paymentMethodAdapter.notifyDataSetChanged()
         }
 
-        consumptionModeAdapter = ConsumptionModeAdapter(selectConsumptionModeClickListener)
+        paymentMethodAdapter = PaymentMethodAdapter(selectPatmentMethodClickListener)
     }
 
     private fun setUpRecyclerView() {
-        val consumptionModes = consumptionModeRepository.search()
+        val paymentMethods = paymentMethodRepository.search()
 
-        binding.rvConsumptionMode.also {
+        binding.rvPaymentMethod.also {
             it.layoutManager = GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
             it.setHasFixedSize(true)
-            it.adapter = consumptionModeAdapter
+            it.adapter = paymentMethodAdapter
         }
 
-        consumptionModeAdapter.updateConsumptionModeList(consumptionModes, order.consumptionModeId)
-        consumptionModeAdapter.notifyDataSetChanged()
+        paymentMethodAdapter.updatePaymentMethodList(paymentMethods, order.paymentMethodId)
+        paymentMethodAdapter.notifyDataSetChanged()
     }
 
     private fun setUpListeners() {
-        binding.btnGoToSelectProducts.setOnClickListener {
+        binding.btnGoToSelectProductsOrSelectCoupon.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("order", GsonBuilder().create().toJson(order))
-            Navigation.findNavController(it).navigate(R.id.action_selectConsumptionModeFragment_to_selectOrderProductsFragment, bundle)
+            Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_selectOrderProductsFragment, bundle)
         }
     }
 }
