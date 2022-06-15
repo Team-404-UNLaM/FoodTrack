@@ -47,8 +47,8 @@
             android:id="@+id/action_marketFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
         <action
-            android:id="@+id/action_marketFragment_to_selectOrderProductsFragment"
-            app:destination="@id/selectOrderProductsFragment" />
+            android:id="@+id/action_marketFragment_to_selectConsumptionModeFragment"
+            app:destination="@id/selectConsumptionModeFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment"
             app:destination="@id/selectOrderPaymentMethodFragment" />
+        <action
+            android:id="@+id/action_selectOrderProductsFragment_to_selectConsumptionModeFragment"
+            app:destination="@id/selectConsumptionModeFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectOrderPaymentMethodFragment"
@@ -84,7 +87,16 @@
         android:name="com.team404.foodtrack.ui.camera.CameraFragment"
         tools:layout="@layout/fragment_camera" >
         <action
-            android:id="@+id/action_nav_qr_scanner_to_selectOrderProductsFragment"
+            android:id="@+id/action_nav_qr_scanner_to_selectConsumptionModeFragment"
+            app:destination="@id/selectConsumptionModeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectConsumptionModeFragment"
+        android:name="com.team404.foodtrack.ui.order.SelectConsumptionModeFragment"
+        android:label="fragment_select_consumption_mode"
+        tools:layout="@layout/fragment_select_consumption_mode" >
+        <action
+            android:id="@+id/action_selectConsumptionModeFragment_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
     <fragment

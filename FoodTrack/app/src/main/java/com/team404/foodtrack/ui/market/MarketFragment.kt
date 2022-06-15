@@ -103,7 +103,7 @@ class MarketFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("order", GsonBuilder().create().toJson(order))
             Navigation.findNavController(root)
-                .navigate(R.id.action_marketFragment_to_selectOrderProductsFragment, bundle)
+                .navigate(R.id.action_marketFragment_to_selectConsumptionModeFragment, bundle)
         }
     }
 

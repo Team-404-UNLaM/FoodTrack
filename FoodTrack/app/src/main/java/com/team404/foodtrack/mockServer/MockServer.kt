@@ -66,6 +66,15 @@ class MockServer {
         return coupons.first { market -> market.id!! == id }
     }
 
+    fun searchConsumptionModes() : List<ConsumptionMode> {
+        return ConsumptionModeMocks.getConsumptionModeMocks()
+    }
+
+    fun searchConsumptionModeById(id: Long) : ConsumptionMode {
+        val consumptionModes = ConsumptionModeMocks.getConsumptionModeMocks()
+        return consumptionModes.first { consumptionMode -> consumptionMode.id!! == id }
+    }
+
     fun searchOrdersHistory() : List<Order> {
         return OrdersHistoryMocks.getOrdersHistoryMocks()
     }
