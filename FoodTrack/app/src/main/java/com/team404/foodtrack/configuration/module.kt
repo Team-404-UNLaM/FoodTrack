@@ -10,6 +10,7 @@ val appModule = module {
     single { CouponRepository(get()) }
     single { MenuRepository(get()) }
     single { ProductRepository(get()) }
+    single { ConsumptionModeRepository(get()) }
     factory { CouponService(get(), get()) }
 }
 
