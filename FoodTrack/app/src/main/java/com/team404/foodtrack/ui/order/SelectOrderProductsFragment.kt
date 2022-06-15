@@ -112,6 +112,13 @@ class SelectOrderProductsFragment : Fragment() {
                 Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment, bundle)
             }
         }
+
+        binding.btnGoToConsumptionMode.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("order", GsonBuilder().create().toJson(order))
+
+            Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectConsumptionModeFragment, bundle)
+        }
     }
 
     private fun buildExpandableList(marketId: Long) {

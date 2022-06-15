@@ -248,7 +248,7 @@ class CameraFragment : Fragment() {
         val bundle = Bundle()
         bundle.putString("order", GsonBuilder().create().toJson(order))
         Navigation.findNavController(root)
-            .navigate(R.id.action_nav_qr_scanner_to_selectOrderProductsFragment, bundle,navOptions)
+            .navigate(R.id.action_nav_qr_scanner_to_selectConsumptionModeFragment, bundle,navOptions)
     }
 
     override fun onResume() {
