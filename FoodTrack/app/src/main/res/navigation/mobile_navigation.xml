@@ -41,20 +41,11 @@
         android:label=""
         tools:layout="@layout/select_products_drawer_layout" >
         <action
-            android:id="@+id/action_selectOrderProductsFragment_to_selectOrderPaymentMethodFragment"
-            app:destination="@id/selectOrderPaymentMethodFragment" />
-        <action
             android:id="@+id/action_selectOrderProductsFragment_to_selectConsumptionModeFragment"
             app:destination="@id/selectConsumptionModeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/selectOrderPaymentMethodFragment"
-        android:name="com.team404.foodtrack.ui.order.SelectOrderPaymentMethodFragment"
-        android:label="fragment_select_order_payment_method"
-        tools:layout="@layout/fragment_select_order_payment_method" >
         <action
-            android:id="@+id/action_selectOrderPaymentMethodFragment_to_selectOrderProductsFragment"
-            app:destination="@id/selectOrderProductsFragment" />
+            android:id="@+id/action_selectOrderProductsFragment_to_selectPaymentMethodFragment"
+            app:destination="@id/selectPaymentMethodFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -77,6 +68,15 @@
         tools:layout="@layout/fragment_select_consumption_mode" >
         <action
             android:id="@+id/action_selectConsumptionModeFragment_to_selectOrderProductsFragment"
+            app:destination="@id/selectOrderProductsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectPaymentMethodFragment"
+        android:name="com.team404.foodtrack.ui.order.SelectPaymentMethodFragment"
+        android:label="fragment_select_payment_method"
+        tools:layout="@layout/fragment_select_payment_method" >
+        <action
+            android:id="@+id/action_selectPaymentMethodFragment_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
     <fragment

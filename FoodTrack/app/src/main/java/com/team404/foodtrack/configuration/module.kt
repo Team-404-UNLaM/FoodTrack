@@ -18,6 +18,7 @@ val appModule = module {
     single { ProductRepository(get()) }
     single { OrderHistoryRepository(get()) }
     single { ConsumptionModeRepository(get()) }
+    single { PaymentMethodRepository(get()) }
 
     // Services
     factory { CouponService(get(), get()) }
