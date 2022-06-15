@@ -38,6 +38,12 @@ class MarketAdapter (private val viewClickListener: (Market) -> Unit, private va
                 .placeholder(R.drawable.ic_market)
                 .error(R.drawable.ic_no_image)
                 .into(holder.binding.marketImg)
+        }else {
+            Picasso.get()
+                .load(R.drawable.ic_market)
+                .placeholder(R.drawable.ic_market)
+                .noFade()
+                .into(holder.binding.marketImg)
         }
 
         CoroutineScope(Dispatchers.IO).launch {

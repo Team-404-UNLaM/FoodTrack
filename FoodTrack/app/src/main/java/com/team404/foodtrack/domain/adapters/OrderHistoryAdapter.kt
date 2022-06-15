@@ -27,7 +27,6 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
 
         holder.binding.marketName.text = orderHistory.market.name
         holder.binding.orderDate.text = orderHistory.order.date
-        holder.binding.textStars.text = orderHistory.market.stars.toString()
         holder.binding.txtConsumptionMode.text = resolveConsumptionMode(orderHistory)
 
 
