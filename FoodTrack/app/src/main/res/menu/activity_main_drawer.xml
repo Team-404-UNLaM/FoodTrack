@@ -29,6 +29,10 @@
             android:id="@+id/cuponFragment"
             android:icon="@drawable/ic_coupon"
             android:title="@string/menu_coupons" />
+        <item
+            android:id="@+id/ordersHistoryFragment"
+            android:icon="@drawable/ic_history"
+            android:title="@string/menu_orders_history" />
 
     </group>
 </menu>

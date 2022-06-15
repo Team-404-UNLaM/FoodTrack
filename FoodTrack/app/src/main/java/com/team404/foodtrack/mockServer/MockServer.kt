@@ -65,4 +65,8 @@ class MockServer {
         val coupons = CouponsMocks.getCouponsMocks()
         return coupons.first { market -> market.id!! == id }
     }
+
+    fun searchOrdersHistory() : List<Order> {
+        return OrdersHistoryMocks.getOrdersHistoryMocks()
+    }
 }

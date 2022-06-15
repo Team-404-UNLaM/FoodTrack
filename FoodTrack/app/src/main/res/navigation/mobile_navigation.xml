@@ -87,4 +87,13 @@
             android:id="@+id/action_nav_qr_scanner_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/ordersHistoryFragment"
+        android:name="com.team404.foodtrack.ui.history.OrdersHistoryFragment"
+        android:label="fragment_orders_history"
+        tools:layout="@layout/fragment_orders_history" >
+        <action
+            android:id="@+id/action_ordersHistoryFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
+    </fragment>
 </navigation>

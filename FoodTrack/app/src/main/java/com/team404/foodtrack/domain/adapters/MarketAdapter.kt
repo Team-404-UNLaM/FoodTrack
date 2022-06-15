@@ -1,4 +1,4 @@
-package com.team404.poketeam.domain.adapters
+package com.team404.foodtrack.domain.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Market
-import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.databinding.GridLayoutMarketBinding
+import com.team404.foodtrack.domain.holders.MarketViewHolder
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
-import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.utils.SnackbarBuilder
-import com.team404.poketeam.domain.holders.MarketViewHolder
 import kotlinx.coroutines.*
 
 class MarketAdapter (private val viewClickListener: (Market) -> Unit, private val favoriteClickListener: (Market) -> Unit) : RecyclerView.Adapter<MarketViewHolder>() {
