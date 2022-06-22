@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_selectOrderProductsFragment_to_selectPaymentMethodFragment"
             app:destination="@id/selectPaymentMethodFragment" />
+        <action
+            android:id="@+id/action_selectOrderProductsFragment_to_selectCouponFragment"
+            app:destination="@id/selectCouponFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
@@ -78,6 +81,9 @@
         <action
             android:id="@+id/action_selectPaymentMethodFragment_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
+        <action
+            android:id="@+id/action_selectPaymentMethodFragment_to_selectCouponFragment"
+            app:destination="@id/selectCouponFragment" />
     </fragment>
     <fragment
         android:id="@+id/ordersHistoryFragment"
@@ -87,5 +93,17 @@
         <action
             android:id="@+id/action_ordersHistoryFragment_to_marketFragment"
             app:destination="@id/marketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectCouponFragment"
+        android:name="com.team404.foodtrack.ui.order.SelectCouponFragment"
+        android:label="fragment_select_coupon"
+        tools:layout="@layout/fragment_select_coupon" >
+        <action
+            android:id="@+id/action_selectCouponFragment_to_selectPaymentMethodFragment"
+            app:destination="@id/selectPaymentMethodFragment" />
+        <action
+            android:id="@+id/action_selectCouponFragment_to_selectOrderProductsFragment"
+            app:destination="@id/selectOrderProductsFragment" />
     </fragment>
 </navigation>

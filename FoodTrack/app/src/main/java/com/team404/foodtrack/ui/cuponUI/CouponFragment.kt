@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.team404.foodtrack.data.Coupon
 import com.team404.foodtrack.databinding.FragmentCouponBinding
+import com.team404.foodtrack.domain.adapters.CouponAdapter
 import com.team404.foodtrack.domain.services.CouponService
 import org.koin.android.ext.android.inject
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout

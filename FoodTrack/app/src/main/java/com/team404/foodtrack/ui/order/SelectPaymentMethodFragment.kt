@@ -87,7 +87,11 @@ class SelectPaymentMethodFragment : Fragment() {
         binding.btnGoToSelectProductsOrSelectCoupon.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("order", GsonBuilder().create().toJson(order))
-            Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_selectOrderProductsFragment, bundle)
+            if (order.appliedCouponId != null && order.appliedCouponId != 0L) {
+                Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_selectCouponFragment, bundle)
+            } else {
+                Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_selectOrderProductsFragment, bundle)
+            }
         }
 
         binding.btnGoToSendOrder.setOnClickListener {

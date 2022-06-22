@@ -6,6 +6,7 @@ class Order(
     val date: String?,
     val consumptioModeId: Long?,
     val paymentMethodId: Long?,
+    val appliedCouponId: Long?,
     val products: MutableMap<Long, Int>?,
     val totalPrice: Double?) {
 
@@ -15,6 +16,7 @@ class Order(
         var date: String? = null,
         var consumptionModeId: Long? = null,
         var paymentMethodId: Long? = null,
+        var appliedCouponId: Long? = null,
         var products: MutableMap<Long, Int>? = null,
         var totalPrice: Double? = null) {
 
@@ -23,8 +25,9 @@ class Order(
         fun date(date: String) = apply { this.date = date }
         fun consumptionModeId(consumptionModeId: Long) = apply { this.consumptionModeId = consumptionModeId }
         fun paymentMethodId(paymentMethodId: Long) = apply { this.paymentMethodId = paymentMethodId }
+        fun appliedCouponId(appliedCouponId: Long?) = apply { this.appliedCouponId = appliedCouponId }
         fun products(products: MutableMap<Long, Int>) = apply { this.products = products }
         fun totalPrice(totalPrice: Double) = apply { this.totalPrice = totalPrice }
-        fun build() = Order(id, marketId, date, consumptionModeId, paymentMethodId, products, totalPrice)
+        fun build() = Order(id, marketId, date, consumptionModeId, paymentMethodId, appliedCouponId, products, totalPrice)
     }
 }
