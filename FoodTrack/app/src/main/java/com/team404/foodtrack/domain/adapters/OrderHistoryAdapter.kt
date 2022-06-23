@@ -44,7 +44,7 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
                 .into(holder.binding.marketImg)
         }
 
-        holder.binding.orderCardSection.setOnClickListener { viewClickListener(orderHistory) }
+        holder.binding.orderCard.setOnClickListener { viewClickListener(orderHistory) }
         holder.binding.txtViewMarket.setOnClickListener { viewMarketClickListener(orderHistory) }
     }
 

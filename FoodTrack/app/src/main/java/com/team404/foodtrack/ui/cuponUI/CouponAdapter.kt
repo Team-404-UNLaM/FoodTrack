@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.Coupon
-import com.team404.foodtrack.databinding.GridLayoutMarketBinding
 import com.team404.foodtrack.databinding.ItemCouponBinding
 import com.team404.foodtrack.domain.adapters.CouponCategoryAdapter
 import com.team404.foodtrack.domain.holders.CouponViewHolder
@@ -32,12 +31,14 @@ class CouponAdapter(private val coupons: List<Coupon>) : RecyclerView.Adapter<Co
         val item = coupons[position]
 
         if (item.tags == null || (item.tags.size == 1 && item.tags[0].name == "ALL") ) {
-            holder.binding.couponValidCategoriesText.visibility = View.GONE
-            holder.binding.couponValidCategoriesRecycler.visibility = View.GONE
+            holder.binding.couponValidCategoriesSection.visibility = View.INVISIBLE
         } else {
+            holder.binding.couponValidCategoriesSection.visibility = View.VISIBLE
+
             couponCategoryAdapter = CouponCategoryAdapter()
             holder.binding.couponValidCategoriesRecycler.layoutManager =  GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false)
             holder.binding.couponValidCategoriesRecycler.adapter = couponCategoryAdapter
+
             couponCategoryAdapter.updateCouponCategories(item.tags)
             couponCategoryAdapter.notifyDataSetChanged()
         }
