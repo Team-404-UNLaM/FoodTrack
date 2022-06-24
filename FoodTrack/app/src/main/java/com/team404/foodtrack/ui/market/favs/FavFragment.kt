@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
@@ -44,9 +45,8 @@ import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.domain.factories.FavsMarketsViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
-import com.team404.foodtrack.ui.market.favs.ui.theme.OrangeBackground
-import com.team404.foodtrack.ui.market.favs.ui.theme.OrangeInputBackground
-import com.team404.foodtrack.ui.market.favs.ui.theme.OrangeInputText
+import com.team404.foodtrack.ui.market.favs.ui.theme.RedLetter
+import com.team404.foodtrack.ui.market.favs.ui.theme.Yellow
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import org.koin.android.ext.android.inject
 
@@ -79,11 +79,12 @@ class FavFragment : Fragment() {
     }
 
     @Composable
-    fun FavsScreenContent() {
+    private fun FavsScreenContent() {
+        BackgroundImage()
         val items = viewModel.marketsFavorites.value
         val textState = remember { mutableStateOf(TextFieldValue("")) }
         if (items.isNotEmpty()) {
-            Column(modifier = Modifier.fillMaxSize().background(OrangeBackground)) {
+            Column(modifier = Modifier.fillMaxSize()) {
                 SearchView(textState)
                 FavComponents(items, textState)
             }
@@ -93,14 +94,24 @@ class FavFragment : Fragment() {
     }
 
     @Composable
-    fun SearchView(textState: MutableState<TextFieldValue>) {
+    private fun BackgroundImage(){
+        Image(
+            painter = painterResource(R.drawable.food_background),
+            contentDescription = "App background image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+    }
+
+    @Composable
+    private fun SearchView(textState: MutableState<TextFieldValue>) {
         TextField(
             value = textState.value,
             onValueChange = {value ->
                 textState.value = value
             },
             modifier = Modifier.fillMaxWidth().padding(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 15.dp),
-            placeholder = {Text(text = "Buscar local", color = OrangeInputText)},
+            placeholder = {Text(text = "Buscar local", color = Color.Black)},
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -124,11 +135,11 @@ class FavFragment : Fragment() {
             singleLine = true,
             shape = RectangleShape,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = OrangeInputText,
-                cursorColor = OrangeInputText,
-                leadingIconColor = OrangeInputText,
-                trailingIconColor = OrangeInputText,
-                backgroundColor = OrangeInputBackground,
+                textColor = Color.Black,
+                cursorColor = Color.Black,
+                leadingIconColor = Color.Black,
+                trailingIconColor = Color.Black,
+                backgroundColor = Color.White,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
@@ -138,7 +149,7 @@ class FavFragment : Fragment() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    fun FavComponents(data: List<MarketFavorites>, textState: MutableState<TextFieldValue>) {
+    private fun FavComponents(data: List<MarketFavorites>, textState: MutableState<TextFieldValue>) {
         val markets = data
         var filteredMarkets : List<MarketFavorites>
 
@@ -168,7 +179,7 @@ class FavFragment : Fragment() {
     }
 
     @Composable
-    fun MarketItem(marketFavorite: MarketFavorites){
+    private fun MarketItem(marketFavorite: MarketFavorites){
         val market = marketRepository.searchById(marketFavorite.marketId)
         CustomFavItem(
             marketId = market.id,
@@ -188,7 +199,7 @@ class FavFragment : Fragment() {
     }
 
     @Composable
-    fun CustomFavItem(
+    private fun CustomFavItem(
         marketName: String = "",
         imageUrl: String?,
         address: String = "",
@@ -199,7 +210,7 @@ class FavFragment : Fragment() {
             modifier = Modifier.padding(start = 4.dp,bottom = 16.dp, end = 4.dp),
             shape = RoundedCornerShape(30.dp),
             backgroundColor = Color.White,
-            border = BorderStroke(1.dp, Color.Black)
+            border = BorderStroke(2.dp, Yellow)
         ){
 
             var expandable by remember { mutableStateOf(false) }
@@ -254,7 +265,7 @@ class FavFragment : Fragment() {
                         ClickableText(
                             modifier = Modifier.align(alignment = Alignment.End).padding(end = 12.dp),
                             text = AnnotatedString(text = "Hacer pedido"),
-                            style = TextStyle(textDecoration = TextDecoration.Underline, color = Color.Blue),
+                            style = TextStyle(textDecoration = TextDecoration.Underline, color = RedLetter),
                             onClick = {
                                 navigateToMakeOrder(marketId)
                             }
@@ -276,9 +287,9 @@ class FavFragment : Fragment() {
     }
 
     @Composable
-    fun NoMarketsFavorites(){
+    private fun NoMarketsFavorites(){
         Column(
-            modifier = Modifier.fillMaxSize().background(OrangeBackground),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
