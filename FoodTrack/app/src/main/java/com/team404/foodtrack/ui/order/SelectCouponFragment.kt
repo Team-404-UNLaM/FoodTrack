@@ -1,5 +1,6 @@
 package com.team404.foodtrack.ui.order
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,6 +45,8 @@ class SelectCouponFragment : Fragment() {
 
         order = GsonBuilder().create().fromJson(arguments?.getString("order"), Order.Builder::class.java)
 
+        binding.totalValue.text = "$${order.totalPrice}"
+
         getApplicableCoupons()
         injectDependencies()
         setUpRecyclerView()
@@ -65,13 +68,30 @@ class SelectCouponFragment : Fragment() {
         room = FoodTrackDB.getDatabase(requireContext())
 
         val selectCouponClickListener = { coupon: Coupon ->
-            order.appliedCouponId(
-                if (order.appliedCouponId == coupon.id) 0L else coupon.id!!
-            )
+            val appliedCoupon = if (order.appliedCouponId == coupon.id) null else coupon.id!!
+
+            order.appliedCouponId(appliedCoupon)
+
+            applyDiscount(coupon, appliedCoupon)
+
             selectableCouponAdapter.notifyDataSetChanged()
         }
 
         selectableCouponAdapter = SelectableCouponAdapter(selectCouponClickListener)
+    }
+
+    fun applyDiscount(coupon: Coupon, appliedCoupon: Long?) {
+        if (appliedCoupon != null) {
+            val discount = coupon.discount?.let { order.totalPrice?.times(it) }
+            val validDiscount = if (coupon.maximumDiscount == null || discount!!.compareTo(coupon.maximumDiscount!!) < 0) discount else coupon.maximumDiscount
+
+            binding.discountedTotalValue.text = (order.totalPrice!!.minus(validDiscount!!)).toString()
+            binding.discountedTotalValue.visibility = View.VISIBLE
+            binding.totalValue.setBackgroundResource(R.drawable.line)
+        } else {
+            binding.discountedTotalValue.visibility = View.INVISIBLE
+            binding.totalValue.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        }
     }
 
     private fun setUpRecyclerView() {
