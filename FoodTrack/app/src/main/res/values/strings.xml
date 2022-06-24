@@ -25,4 +25,5 @@
     <string name="price_number">$0.00</string>
     <string name="see_menu">Ver menu</string>
     <string name="product_description">Descripción del producto</string>
+    <string name="menu_favorites">Favoritos</string>
 </resources>
