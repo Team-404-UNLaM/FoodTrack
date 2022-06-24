@@ -3,8 +3,6 @@ package com.team404.foodtrack.ui.maps
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,21 +10,28 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
+import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.team404.foodtrack.R
+import com.team404.foodtrack.data.Market
+import com.team404.foodtrack.databinding.ItemMarketMapBinding
 import com.team404.foodtrack.domain.repositories.MarketRepository
 import org.koin.android.ext.android.inject
+
 
 @SuppressLint("MissingPermission")
 class MapsFragment : Fragment() {
 
     private val marketRepository : MarketRepository by inject()
+    private var _marketItemBinding: ItemMarketMapBinding? = null
+    private var markerTags : MutableMap<Marker?, Market> = mutableMapOf()
     private lateinit var map: GoogleMap
+    private val marketItemBinding get() = _marketItemBinding!!
 
     companion object {
         const val REQUEST_CODE_LOCATION = 2008
@@ -39,11 +44,14 @@ class MapsFragment : Fragment() {
 
         markets.forEach { market ->
             val marketLocation = LatLng(market.address!!.latitude, market.address.longitude)
-            googleMap.addMarker(MarkerOptions()
+
+            val marker = googleMap.addMarker(MarkerOptions()
                 .position(marketLocation)
                 .title(market.name)
                 .snippet("${market.address.street} ${market.address.number}")
             )
+
+            markerTags[marker] = market
         }
 
         map = googleMap
@@ -60,6 +68,26 @@ class MapsFragment : Fragment() {
             )
         }
 
+        googleMap.setOnInfoWindowClickListener { marker ->
+            val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
+            val market = markerTags[marker]
+
+            dialog?.let {
+                //TODO Completar en base a la visual
+                marketItemBinding.txtTitle.text = market?.name
+                marketItemBinding.txtTag1.text = "Restaurant"
+                marketItemBinding.txtTag2.text = "Bar"
+
+                dialog.setCancelable(true)
+                dialog.setContentView(marketItemBinding.root)
+                dialog.show()
+            }
+            Toast.makeText(requireContext(), "Clicked location is ${marker.id}", Toast.LENGTH_SHORT)
+                .show()
+
+
+        }
+
     }
 
     override fun onCreateView(
@@ -67,6 +95,7 @@ class MapsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _marketItemBinding = ItemMarketMapBinding.inflate(layoutInflater)
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
