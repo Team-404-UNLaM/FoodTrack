@@ -99,7 +99,7 @@ class SelectOrderProductsFragment : Fragment() {
                 builder.setPositiveButton("Si", DialogInterface.OnClickListener{ dialog, id ->
                     bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
                     dialog.cancel()
-                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectCouponFragment, bundle)
                 })
                 builder.setNegativeButton("No", DialogInterface.OnClickListener{ dialog, id ->
                     dialog.cancel()

@@ -1,21 +1,18 @@
-package com.team404.foodtrack.ui.cuponUI
+package com.team404.foodtrack.domain.adapters
 
 import android.content.Context
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.Carousel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
 import com.team404.foodtrack.data.Coupon
-import com.team404.foodtrack.databinding.GridLayoutMarketBinding
 import com.team404.foodtrack.databinding.ItemCouponBinding
-import com.team404.foodtrack.domain.adapters.CouponCategoryAdapter
 import com.team404.foodtrack.domain.holders.CouponViewHolder
+import com.team404.foodtrack.utils.buildCouponValidForMessage
 
 class CouponAdapter(private val coupons: List<Coupon>) : RecyclerView.Adapter<CouponViewHolder>() {
 
@@ -32,12 +29,14 @@ class CouponAdapter(private val coupons: List<Coupon>) : RecyclerView.Adapter<Co
         val item = coupons[position]
 
         if (item.tags == null || (item.tags.size == 1 && item.tags[0].name == "ALL") ) {
-            holder.binding.couponValidCategoriesText.visibility = View.GONE
-            holder.binding.couponValidCategoriesRecycler.visibility = View.GONE
+            holder.binding.couponValidCategoriesSection.visibility = View.INVISIBLE
         } else {
+            holder.binding.couponValidCategoriesSection.visibility = View.VISIBLE
+
             couponCategoryAdapter = CouponCategoryAdapter()
             holder.binding.couponValidCategoriesRecycler.layoutManager =  GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false)
             holder.binding.couponValidCategoriesRecycler.adapter = couponCategoryAdapter
+
             couponCategoryAdapter.updateCouponCategories(item.tags)
             couponCategoryAdapter.notifyDataSetChanged()
         }
@@ -59,23 +58,4 @@ class CouponAdapter(private val coupons: List<Coupon>) : RecyclerView.Adapter<Co
     }
 
     override fun getItemCount(): Int  = coupons.size
-
-    fun buildCouponValidForMessage(coupon: Coupon): String {
-        var message = "Cupon válido"
-
-        if (coupon.minimumPrice != null) {
-            message = message.plus(" para pedidos mayores a $${coupon.minimumPrice}")
-        }
-
-        if (coupon.maximumDiscount != null) {
-            message = message.plus(" con un tope de reintegro de $${coupon.minimumPrice}")
-        }
-
-        if (coupon.minimumPrice == null && coupon.maximumDiscount == null) {
-            message = message.plus(" para cualquier valor de pedido")
-        }
-
-        return message
-    }
-
 }
