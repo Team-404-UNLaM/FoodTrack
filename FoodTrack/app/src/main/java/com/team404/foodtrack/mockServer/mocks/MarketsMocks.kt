@@ -85,7 +85,7 @@ object MarketsMocks {
                 -34.67124749076973,
             -58.56305038635756
             ))
-            .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
+            .marketImg("https://scontent.faep7-1.fna.fbcdn.net/v/t1.6435-9/203176209_1137491433414557_8610666723021744795_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHX20vWnyNAgGmO7S4TMXLRElnlQwIxI58SWeVDAjEjn-KI5UfSTzXxe-pU7tqKnYkGhbPiLPQ6wAxyoY7bMD6u&_nc_ohc=lt3MPyBoDQkAX_sIU1I&tn=DKJ6ltsWMYWecOqd&_nc_ht=scontent.faep7-1.fna&oh=00_AT8QHFeOytQlcR1cacGODWJ8DX_wdMYagsZy-ASalKFrfA&oe=62D0209C")
             .stars(4.8)
             .description("La mejor hamburguesa del oeste, ¿Te la vas a perder?")
             .type(listOf(MarketTypes.BAR))
@@ -102,7 +102,7 @@ object MarketsMocks {
                 -34.6713802064953,
                 -58.563396991033954
             ))
-            .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
+            .marketImg("https://scontent.faep7-1.fna.fbcdn.net/v/t1.6435-9/149836098_2647635548862755_8387096398436540859_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEDDVqk1vaA2UEl7gUkuVtUw5KorwbO30TDkqivBs7fRNAPYAmu_1KXxXJ0kEqpr-wl4xodDSs0-Hi9Kb0ZQ0-h&_nc_ohc=YrdNuU-qvwsAX_QFkPB&_nc_ht=scontent.faep7-1.fna&oh=00_AT946QubmoKe3zng0YgdWy3e4Gxl2r-KhUlfDNbHUGmSdA&oe=62CE82D6")
             .stars(3.2)
             .description("Pizzas, hamburguesas y papitas frente a tu universidad favorita")
             .type(listOf(MarketTypes.BAR))
@@ -119,8 +119,7 @@ object MarketsMocks {
                 -34.670456691404546,
                 -58.56220037928297
             ))
-            .marketImg("https://lh4.googleusercontent.com/-rkvi-cLfJVw/AAAAAAAAAAI/AAAAAAAAAAA/z5hxB2EZhxY/s44-p-k-no-ns-nd/photo.jpg")
-            .stars(3.2)
+            .stars(3.8)
             .description("La mejor comida, la mejor musica, el mejor plan")
             .type(listOf(MarketTypes.BAR))
             .cellPhone("+54 9 11 6299 6704")

@@ -83,4 +83,8 @@ class MockServer {
         val paymentMethods = PaymentMethodMocks.getPaymentMethodMocks()
         return paymentMethods.first { paymentMethod -> paymentMethod.id!! == id }
     }
+
+    fun searchOrdersHistory() : List<Order> {
+        return OrdersHistoryMocks.getOrdersHistoryMocks()
+    }
 }

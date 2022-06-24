@@ -20,8 +20,8 @@ import com.team404.foodtrack.domain.repositories.MarketRepository
 import com.team404.foodtrack.R
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import com.team404.foodtrack.domain.adapters.MarketAdapter
+import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

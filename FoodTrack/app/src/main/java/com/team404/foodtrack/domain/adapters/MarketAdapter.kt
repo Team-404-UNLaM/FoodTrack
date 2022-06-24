@@ -8,9 +8,9 @@ import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Market
 import com.team404.foodtrack.databinding.GridLayoutMarketBinding
+import com.team404.foodtrack.domain.holders.MarketViewHolder
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.utils.SnackbarBuilder
-import com.team404.foodtrack.domain.holders.MarketViewHolder
 import kotlinx.coroutines.*
 
 class MarketAdapter (private val viewClickListener: (Market) -> Unit, private val favoriteClickListener: (Market) -> Unit) : RecyclerView.Adapter<MarketViewHolder>() {
@@ -37,6 +37,12 @@ class MarketAdapter (private val viewClickListener: (Market) -> Unit, private va
                 .load(market.marketImg)
                 .placeholder(R.drawable.ic_market)
                 .error(R.drawable.ic_no_image)
+                .into(holder.binding.marketImg)
+        }else {
+            Picasso.get()
+                .load(R.drawable.ic_market)
+                .placeholder(R.drawable.ic_market)
+                .noFade()
                 .into(holder.binding.marketImg)
         }
 
@@ -72,5 +78,4 @@ class MarketAdapter (private val viewClickListener: (Market) -> Unit, private va
             marketList.addAll(results)
         }
     }
-
 }

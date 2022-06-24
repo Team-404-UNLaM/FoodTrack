@@ -3,32 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/marketListFragment">
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.team404.foodtrack.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_nav_home_to_marketListFragment"
-            app:destination="@id/marketListFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.team404.foodtrack.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
     <fragment
         android:id="@+id/cuponFragment"
         android:name="com.team404.foodtrack.ui.cuponUI.CouponFragment"
-        android:label="CuponFragment" />
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.team404.foodtrack.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="CUPONES" />
     <fragment
         android:id="@+id/marketListFragment"
         android:name="com.team404.foodtrack.ui.market.MarketListFragment"
@@ -66,11 +46,14 @@
         <action
             android:id="@+id/action_selectOrderProductsFragment_to_selectPaymentMethodFragment"
             app:destination="@id/selectPaymentMethodFragment" />
+        <action
+            android:id="@+id/action_selectOrderProductsFragment_to_selectCouponFragment"
+            app:destination="@id/selectCouponFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.team404.foodtrack.ui.maps.MapsFragment"
-        android:label="fragment_maps"
+        android:label="LOCALES CERCANOS"
         tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/nav_qr_scanner"
@@ -97,6 +80,30 @@
         tools:layout="@layout/fragment_select_payment_method" >
         <action
             android:id="@+id/action_selectPaymentMethodFragment_to_selectOrderProductsFragment"
+            app:destination="@id/selectOrderProductsFragment" />
+        <action
+            android:id="@+id/action_selectPaymentMethodFragment_to_selectCouponFragment"
+            app:destination="@id/selectCouponFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersHistoryFragment"
+        android:name="com.team404.foodtrack.ui.history.OrdersHistoryFragment"
+        android:label="MIS PEDIDOS"
+        tools:layout="@layout/fragment_orders_history" >
+        <action
+            android:id="@+id/action_ordersHistoryFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectCouponFragment"
+        android:name="com.team404.foodtrack.ui.order.SelectCouponFragment"
+        android:label="fragment_select_coupon"
+        tools:layout="@layout/fragment_select_coupon" >
+        <action
+            android:id="@+id/action_selectCouponFragment_to_selectPaymentMethodFragment"
+            app:destination="@id/selectPaymentMethodFragment" />
+        <action
+            android:id="@+id/action_selectCouponFragment_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
     <fragment
