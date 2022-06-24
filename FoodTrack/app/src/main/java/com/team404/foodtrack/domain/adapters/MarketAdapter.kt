@@ -78,5 +78,4 @@ class MarketAdapter (private val viewClickListener: (Market) -> Unit, private va
             marketList.addAll(results)
         }
     }
-
 }
