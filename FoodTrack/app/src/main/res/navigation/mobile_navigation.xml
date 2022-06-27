@@ -110,4 +110,14 @@
             android:id="@+id/action_selectCouponFragment_to_selectOrderProductsFragment"
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.team404.foodtrack.ui.market.favs.FavFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_fav">
+        <action
+            android:id="@+id/action_favFragment_to_selectConsumptionModeFragment"
+            app:destination="@id/selectConsumptionModeFragment" />
+    </fragment>
+
 </navigation>
