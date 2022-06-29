@@ -12,13 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import com.team404.foodtrack.R
+import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.data.Product
+import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.databinding.FragmentOrderDetailBinding
 import com.team404.foodtrack.domain.adapters.ProductsAdapter
+import com.team404.foodtrack.domain.mappers.MinifiedOrderMapper
 import com.team404.foodtrack.domain.repositories.*
 import com.team404.foodtrack.utils.DateAndTime
 import com.team404.foodtrack.utils.buildCouponValidForMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 
@@ -30,9 +37,11 @@ class OrderDetailFragment : Fragment() {
     private val paymentMethodRepository : PaymentMethodRepository by inject()
     private val productRepository : ProductRepository by inject()
     private val consumptionModeRepository : ConsumptionModeRepository by inject()
+    private val minifiedOrderMapper: MinifiedOrderMapper by inject()
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var selectedProductsMap: MutableMap<Long, Product>
     private lateinit var order: Order.Builder
+    private lateinit var room: FoodTrackDB
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +52,8 @@ class OrderDetailFragment : Fragment() {
         val root: View = binding.root
 
         order = GsonBuilder().create().fromJson(arguments?.getString("order"), Order.Builder::class.java)
+
+        room = FoodTrackDB.getDatabase(requireContext())
 
         injectDependencies()
         setUpListeners()
@@ -60,11 +71,17 @@ class OrderDetailFragment : Fragment() {
         }
 
         binding.btnSendOrder.setOnClickListener {
-            // TODO: implementar y que makeMessage reciba newOrder
-            // val newOrder = orderRepository.insert(order.build())
-            makeMessageToSendByWhatsApp(order)
-            // TODO: Apuntar a detalle pedido de lista pedidos
-            Navigation.findNavController(it).navigate(R.id.action_orderDetailFragment_to_selectPaymentMethodFragment)
+            CoroutineScope(Dispatchers.Default).launch {
+                val orderRepository = OrderRepository(room.minifiedOrderDao())
+                order.date("29 de junio")
+                val minifiedOrder = minifiedOrderMapper.map(order.build())
+                val orderId = orderRepository.insert(minifiedOrder)
+                makeMessageToSendByWhatsApp(order.id(orderId).build())
+
+                withContext(Dispatchers.Main) {
+                    Navigation.findNavController(it).navigate(R.id.action_orderDetailFragment_to_ordersHistoryFragment)
+                }
+            }
         }
     }
 
@@ -187,35 +204,33 @@ class OrderDetailFragment : Fragment() {
 
 
     // TODO: Recibir objeto tipo Order
-    private fun makeMessageToSendByWhatsApp(order: Order.Builder?) {
-        if(order !=null){
-            val market = marketRepository.searchById(order.marketId!!)
-            val consumptionMode = consumptionModeRepository.searchById(order.consumptionModeId!!)
-            val paymentMethod = paymentMethodRepository.searchById(order.paymentMethodId!!)
+    private fun makeMessageToSendByWhatsApp(order: Order) {
+        val market = marketRepository.searchById(order.marketId!!)
+        val consumptionMode = consumptionModeRepository.searchById(order.consumptionModeId!!)
+        val paymentMethod = paymentMethodRepository.searchById(order.paymentMethodId!!)
 
-            val messageToSend = """
-                        #Hola ${market.name}${String(Character.toChars(0x2757))}
-                        #Acabo de realizar un pedido, este es el detalle:
-                        #
-                        #Orden #${order.id}
-                        #${DateAndTime.getDateAndTime()}
-                        #
-                        #${getProducts()}
-                        #Modo de consumisión:
-                        #${String(Character.toChars(0x1F4CC))}${consumptionMode.name}
-                        #Forma de pago:
-                        #${String(Character.toChars(0x1F4CC))}${paymentMethod.name}
-                        #${getCouponMessageIfApplies()}
-                        #${getOrderPricesMessage()}
-                        #
-                        #Equipo de Food Track
-                    """.trimMargin("#")
+        val messageToSend = """
+                    #Hola ${market.name}${String(Character.toChars(0x2757))}
+                    #Acabo de realizar un pedido, este es el detalle:
+                    #
+                    #Orden #${order.id}
+                    #${DateAndTime.getDateAndTime()}
+                    #
+                    #${getProducts()}
+                    #Modo de consumisión:
+                    #${String(Character.toChars(0x1F4CC))}${consumptionMode.name}
+                    #Forma de pago:
+                    #${String(Character.toChars(0x1F4CC))}${paymentMethod.name}
+                    #${getCouponMessageIfApplies()}
+                    #${getOrderPricesMessage()}
+                    #
+                    #Equipo de Food Track
+                """.trimMargin("#")
 
-            if (market.cellPhone != null) {
-                val marketNumber = formatMarketNumber(market.cellPhone)
+        if (market.cellPhone != null) {
+            val marketNumber = formatMarketNumber(market.cellPhone)
 
-                sendMessageByWhatsApp(messageToSend, marketNumber)
-            }
+            sendMessageByWhatsApp(messageToSend, marketNumber)
         }
     }
 

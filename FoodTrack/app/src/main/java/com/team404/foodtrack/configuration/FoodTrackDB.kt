@@ -5,16 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.team404.foodtrack.data.database.MarketFavorites
+import com.team404.foodtrack.data.database.MinifiedOrder
 import com.team404.foodtrack.domain.persistence.MarketFavoritesDao
+import com.team404.foodtrack.domain.persistence.MinifiedOrderDao
 
 @Database(
-    entities = [MarketFavorites::class],
+    entities = [MarketFavorites::class, MinifiedOrder::class],
     version = 1,
     exportSchema = false
 )
 
 abstract class FoodTrackDB : RoomDatabase() {
     abstract fun marketFavoritesDao(): MarketFavoritesDao
+    abstract fun minifiedOrderDao() : MinifiedOrderDao
 
     companion object {
         @Volatile

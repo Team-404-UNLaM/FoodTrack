@@ -4,7 +4,7 @@ class Order(
     val id: Long?,
     val marketId: Long?,
     val date: String?,
-    val consumptioModeId: Long?,
+    val consumptionModeId: Long?,
     val paymentMethodId: Long?,
     val appliedCouponId: Long?,
     val products: MutableMap<Long, Int>?,

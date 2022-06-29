@@ -49,7 +49,7 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
     }
 
     private fun resolveConsumptionMode(orderHistory: OrderHistory): String {
-        if(orderHistory.order.consumptioModeId!! == 111111L)
+        if(orderHistory.order.consumptionModeId!! == 111111L)
             return LOCAL_CONSUMPTION
         return TAKE_AWAY
     }
