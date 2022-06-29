@@ -9,7 +9,7 @@ object ConsumptionModeMocks {
         val consumptionMode1 = ConsumptionMode.Builder()
             .id(111111L)
             .name("Consumo en el local")
-            .consumptionModeImg("https://i.pinimg.com/564x/79/42/4b/79424bc66709013581ff88a1858b3d42.jpg")
+            .consumptionModeImg("https://i.pinimg.com/originals/8d/28/d5/8d28d5a65a932ef9d259b8f3540ecb4b.png")
             .build()
 
         val consumptionMode2 = ConsumptionMode.Builder()
