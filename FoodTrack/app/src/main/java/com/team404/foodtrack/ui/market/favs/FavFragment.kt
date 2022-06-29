@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +46,7 @@ import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.domain.factories.FavsMarketsViewModelFactory
 import com.team404.foodtrack.domain.repositories.MarketFavoritesRepository
 import com.team404.foodtrack.domain.repositories.MarketRepository
+import com.team404.foodtrack.ui.market.favs.ui.theme.DefaultGray
 import com.team404.foodtrack.ui.market.favs.ui.theme.RedLetter
 import com.team404.foodtrack.ui.market.favs.ui.theme.Yellow
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
@@ -110,7 +112,7 @@ class FavFragment : Fragment() {
             onValueChange = {value ->
                 textState.value = value
             },
-            modifier = Modifier.fillMaxWidth().padding(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 15.dp),
+            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(start = 15.dp, top = 15.dp, end = 15.dp, bottom = 15.dp),
             placeholder = {Text(text = "Buscar local", color = Color.Black)},
             leadingIcon = {
                 Icon(
@@ -133,7 +135,7 @@ class FavFragment : Fragment() {
                 }
             },
             singleLine = true,
-            shape = RectangleShape,
+            shape = RoundedCornerShape(10.dp),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
                 cursorColor = Color.Black,
@@ -154,7 +156,7 @@ class FavFragment : Fragment() {
         var filteredMarkets : List<MarketFavorites>
 
         androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-            columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(3),
+            columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(12.dp),
             verticalArrangement = Arrangement.Top,
@@ -210,7 +212,7 @@ class FavFragment : Fragment() {
             modifier = Modifier.padding(start = 4.dp,bottom = 16.dp, end = 4.dp),
             shape = RoundedCornerShape(30.dp),
             backgroundColor = Color.White,
-            border = BorderStroke(2.dp, Yellow)
+            border = BorderStroke(1.dp, Color.Black)
         ){
 
             var expandable by remember { mutableStateOf(false) }
@@ -218,18 +220,30 @@ class FavFragment : Fragment() {
             Column(
                 modifier = Modifier.clickable { expandable = !expandable }
             ){
+                IconButton(
+                    onClick={
+                        viewModel.deleteMarketFromFavorites(market)
+                        expandable = false
+                    }){
+                    Icon(modifier = Modifier.padding(top = 15.dp, start = 15.dp).align(Alignment.Start),
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "market favorite icon",
+                        tint = Color.Red
+                    )
+                }
                 AsyncImage(
                     model = imageUrl,
                     contentDescription = "Market image",
                     placeholder = painterResource(R.drawable.ic_market),
                     error = painterResource(R.drawable.ic_market),
                     alignment = Alignment.Center,
-                    modifier = Modifier.size(150.dp).padding(16.dp)
+                    modifier = Modifier.size(110.dp).padding(top = 0.dp, start= 15.dp, end= 15.dp).align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    modifier = Modifier.width(140.dp).padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                    modifier = Modifier.wrapContentWidth().padding(top = 5.dp, bottom = 10.dp, start= 15.dp, end = 15.dp).align(Alignment.CenterHorizontally),
                     text = marketName,
                     style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold,
                     overflow = if (expandable) {
                         TextOverflow.Visible
                     } else {
@@ -242,30 +256,15 @@ class FavFragment : Fragment() {
                     Column(
                         modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                     ){
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically
-                        ){
                             Text(
-                                modifier = Modifier.width(80.dp),
-                                text = address
+                                modifier = Modifier.fillMaxWidth(),
+                                text = address,
+                                color = DefaultGray
                             )
-                            IconButton(
-                                onClick={
-                                    viewModel.deleteMarketFromFavorites(market)
-                                    expandable = false
-                                }){
-                                Icon(modifier = Modifier.padding(end = 8.dp),
-                                    imageVector = Icons.Default.Favorite,
-                                    contentDescription = "market favorite icon",
-                                    tint = Color.Red
-                                )
-                            }
-                        }
                         ClickableText(
-                            modifier = Modifier.align(alignment = Alignment.End).padding(end = 12.dp),
+                            modifier = Modifier.align(alignment = Alignment.Start).padding(top = 10.dp, bottom = 15.dp),
                             text = AnnotatedString(text = "Hacer pedido"),
-                            style = TextStyle(textDecoration = TextDecoration.Underline, color = RedLetter),
+                            style = TextStyle(textDecoration = TextDecoration.None, color = RedLetter),
                             onClick = {
                                 navigateToMakeOrder(marketId)
                             }

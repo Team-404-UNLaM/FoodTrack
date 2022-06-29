@@ -38,7 +38,7 @@
     <fragment
         android:id="@+id/selectOrderProductsFragment"
         android:name="com.team404.foodtrack.ui.order.SelectOrderProductsFragment"
-        android:label=""
+        android:label="NUEVO PEDIDO"
         tools:layout="@layout/select_products_drawer_layout" >
         <action
             android:id="@+id/action_selectOrderProductsFragment_to_selectConsumptionModeFragment"
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/selectConsumptionModeFragment"
         android:name="com.team404.foodtrack.ui.order.SelectConsumptionModeFragment"
-        android:label="fragment_select_consumption_mode"
+        android:label="NUEVO PEDIDO"
         tools:layout="@layout/fragment_select_consumption_mode" >
         <action
             android:id="@+id/action_selectConsumptionModeFragment_to_selectOrderProductsFragment"
@@ -80,7 +80,7 @@
     <fragment
         android:id="@+id/selectPaymentMethodFragment"
         android:name="com.team404.foodtrack.ui.order.SelectPaymentMethodFragment"
-        android:label="fragment_select_payment_method"
+        android:label="NUEVO PEDIDO"
         tools:layout="@layout/fragment_select_payment_method" >
         <action
             android:id="@+id/action_selectPaymentMethodFragment_to_selectOrderProductsFragment"
@@ -104,7 +104,7 @@
     <fragment
         android:id="@+id/selectCouponFragment"
         android:name="com.team404.foodtrack.ui.order.SelectCouponFragment"
-        android:label="fragment_select_coupon"
+        android:label="NUEVO PEDIDO"
         tools:layout="@layout/fragment_select_coupon" >
         <action
             android:id="@+id/action_selectCouponFragment_to_selectPaymentMethodFragment"
