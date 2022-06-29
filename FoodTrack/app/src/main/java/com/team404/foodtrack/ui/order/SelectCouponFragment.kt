@@ -72,7 +72,16 @@ class SelectCouponFragment : Fragment() {
 
             order.appliedCouponId(appliedCoupon)
 
-            applyDiscount(coupon, appliedCoupon)
+            if (appliedCoupon != null) {
+                val discount = coupon.discount?.let { order.totalPrice?.times(it) }
+                val validDiscount = if (coupon.maximumDiscount == null || discount!!.compareTo(coupon.maximumDiscount!!) < 0) discount else coupon.maximumDiscount
+
+                order.discountedPrice(order.totalPrice!!.minus(validDiscount!!))
+            } else {
+                order.discountedPrice(null)
+            }
+
+            applyDiscount()
 
             selectableCouponAdapter.notifyDataSetChanged()
         }
@@ -80,21 +89,20 @@ class SelectCouponFragment : Fragment() {
         selectableCouponAdapter = SelectableCouponAdapter(selectCouponClickListener)
     }
 
-    fun applyDiscount(coupon: Coupon, appliedCoupon: Long?) {
-        if (appliedCoupon != null) {
-            val discount = coupon.discount?.let { order.totalPrice?.times(it) }
-            val validDiscount = if (coupon.maximumDiscount == null || discount!!.compareTo(coupon.maximumDiscount!!) < 0) discount else coupon.maximumDiscount
-
-            binding.discountedTotalValue.text = (order.totalPrice!!.minus(validDiscount!!)).toString()
+    fun applyDiscount() {
+        if (order.discountedPrice != null) {
+            binding.discountedTotalValue.text = (order.discountedPrice).toString()
             binding.discountedTotalValue.visibility = View.VISIBLE
             binding.totalValue.setBackgroundResource(R.drawable.line)
         } else {
-            binding.discountedTotalValue.visibility = View.INVISIBLE
+            binding.discountedTotalValue.visibility = View.GONE
             binding.totalValue.setBackgroundColor(Color.parseColor("#FFFFFF"))
         }
     }
 
     private fun setUpRecyclerView() {
+        applyDiscount()
+
         binding.rvCoupon.also {
             it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             it.setHasFixedSize(true)
