@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_selectPaymentMethodFragment_to_selectCouponFragment"
             app:destination="@id/selectCouponFragment" />
+        <action
+            android:id="@+id/action_selectPaymentMethodFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/ordersHistoryFragment"
@@ -111,6 +114,15 @@
             app:destination="@id/selectOrderProductsFragment" />
     </fragment>
     <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.team404.foodtrack.ui.order.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" >
+        <action
+            android:id="@+id/action_orderDetailFragment_to_selectPaymentMethodFragment"
+            app:destination="@id/selectPaymentMethodFragment" />
+    </fragment>
+<fragment
         android:id="@+id/favFragment"
         android:name="com.team404.foodtrack.ui.market.favs.FavFragment"
         android:label="@string/menu_favorites"
