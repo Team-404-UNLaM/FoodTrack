@@ -46,7 +46,7 @@ class SelectCouponFragment : Fragment() {
         order = GsonBuilder().create().fromJson(arguments?.getString("order"), Order.Builder::class.java)
 
         binding.totalValue.text = "$${order.totalPrice}"
-
+      
         getApplicableCoupons()
         injectDependencies()
         setUpRecyclerView()
