@@ -35,7 +35,7 @@ class ConsumptionModeAdapter (private val selectConsumptionModeClickListener: (C
 
         val cardColor = if (selectedConsumptionModeId != null && consumptionMode.id == selectedConsumptionModeId) "#FFFFE9BB" else "#FFFFFFFF"
 
-        holder.binding.consumptionModeArea.setBackgroundColor(Color.parseColor(cardColor))
+        holder.binding.consumptionModeCard.setCardBackgroundColor(Color.parseColor(cardColor))
 
         if (consumptionMode.consumptionModeImg != null) {
             Picasso.get()

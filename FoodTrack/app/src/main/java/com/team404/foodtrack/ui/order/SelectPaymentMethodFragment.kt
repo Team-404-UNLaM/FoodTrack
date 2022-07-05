@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +61,7 @@ class SelectPaymentMethodFragment : Fragment() {
 
         val selectPatmentMethodClickListener = { paymentMethod: PaymentMethod ->
             order.paymentMethodId(
-                if (order.paymentMethodId == paymentMethod.id) 0L else paymentMethod.id!!
+                if (order.paymentMethodId == paymentMethod.id) null else paymentMethod.id!!
             )
             paymentMethodAdapter.notifyDataSetChanged()
         }
@@ -93,9 +94,16 @@ class SelectPaymentMethodFragment : Fragment() {
         }
 
         binding.btnGoToSendOrder.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("order", GsonBuilder().create().toJson(order))
-            Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_orderDetailFragment, bundle)
+            if (order.paymentMethodId != null) {
+                val bundle = Bundle()
+                bundle.putString("order", GsonBuilder().create().toJson(order))
+                Navigation.findNavController(it).navigate(R.id.action_selectPaymentMethodFragment_to_orderDetailFragment, bundle)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Seleccione un medio de pago",
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 

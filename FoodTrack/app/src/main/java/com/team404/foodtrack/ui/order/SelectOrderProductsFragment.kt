@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -88,28 +89,40 @@ class SelectOrderProductsFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.btnGoToPay.setOnClickListener {
-            val coupons = couponService.searchCouponsForOrder(order.marketId!!, order.totalPrice!!)
-            val bundle = Bundle()
-            bundle.putString("order", GsonBuilder().create().toJson(order))
+            if (order.products != null && order.products!!.isNotEmpty()) {
+                val coupons = couponService.searchCouponsForOrder(order.marketId!!, order.totalPrice!!)
+                val bundle = Bundle()
+                bundle.putString("order", GsonBuilder().create().toJson(order))
 
-            if(coupons.isNotEmpty()) {
-                val builder = AlertDialog.Builder(it.context)
-                builder.setTitle("Cupones")
-                builder.setMessage("Existen cupones aplicables a su pedido.\n¿Desea seleccionar aplicar un cupon a su pedido?")
-                builder.setPositiveButton("Si", DialogInterface.OnClickListener{ dialog, id ->
-                    bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
-                    dialog.cancel()
-                    Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectCouponFragment, bundle)
-                })
-                builder.setNegativeButton("No", DialogInterface.OnClickListener{ dialog, id ->
-                    dialog.cancel()
+                if(coupons.isNotEmpty()) {
+                    if (order.appliedCouponId != null) {
+                        bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
+                        Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectCouponFragment, bundle)
+                    } else {
+                        val builder = AlertDialog.Builder(it.context)
+                        builder.setTitle("Cupones")
+                        builder.setMessage("Existen cupones aplicables a su pedido.\n¿Desea seleccionar aplicar un cupon a su pedido?")
+                        builder.setPositiveButton("Si", DialogInterface.OnClickListener{ dialog, id ->
+                            bundle.putString("coupons", GsonBuilder().create().toJson(coupons))
+                            dialog.cancel()
+                            Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectCouponFragment, bundle)
+                        })
+                        builder.setNegativeButton("No", DialogInterface.OnClickListener{ dialog, id ->
+                            dialog.cancel()
+                            Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
+                        })
+
+                        val alert = builder.create()
+                        alert.show()
+                    }
+                } else {
                     Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
-                })
-
-                val alert = builder.create()
-                alert.show()
+                }
             } else {
-                Navigation.findNavController(it).navigate(R.id.action_selectOrderProductsFragment_to_selectPaymentMethodFragment, bundle)
+                Toast.makeText(
+                    requireContext(),
+                    "Seleccione al menos un producto",
+                    Toast.LENGTH_LONG).show()
             }
         }
 
