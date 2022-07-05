@@ -73,7 +73,7 @@ class OrderDetailFragment : Fragment() {
         binding.btnSendOrder.setOnClickListener {
             CoroutineScope(Dispatchers.Default).launch {
                 val orderRepository = OrderRepository(room.minifiedOrderDao())
-                order.date("29 de junio")
+                order.date(DateAndTime.getDate())
                 val minifiedOrder = minifiedOrderMapper.map(order.build())
                 val orderId = orderRepository.insert(minifiedOrder)
                 makeMessageToSendByWhatsApp(order.id(orderId).build())

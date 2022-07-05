@@ -10,7 +10,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(111111L)
             .totalPrice(2350.50)
-            .date("11 de junio")
+            .date("11/06/2022")
             .consumptionModeId(111111L)
             .build()
 
@@ -18,7 +18,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(333333L)
             .totalPrice(1250.00)
-            .date("3 de junio")
+            .date("3/06/2022")
             .consumptionModeId(111111L)
             .build()
 
@@ -26,7 +26,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(222222L)
             .totalPrice(600.00)
-            .date("19 de mayo")
+            .date("19/05/2022")
             .consumptionModeId(222222L)
             .build()
 
@@ -34,7 +34,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(444444L)
             .totalPrice(750.50)
-            .date("11 de mayo")
+            .date("11/05/2022")
             .consumptionModeId(111111L)
             .build()
 
@@ -42,7 +42,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(111111L)
             .totalPrice(2350.50)
-            .date("15 de abril")
+            .date("15/04/2022")
             .consumptionModeId(111111L)
             .build()
 
@@ -50,7 +50,7 @@ object OrdersHistoryMocks {
             .id(111111L)
             .marketId(222222L)
             .totalPrice(2350.50)
-            .date("31 de julio del 2021")
+            .date("31/07/2021")
             .consumptionModeId(222222L)
             .build()
 

@@ -20,4 +20,32 @@ object DateAndTime {
             return formatter.format(date)
         }
     }
+
+    fun getDate():String{
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            return current.format(formatter)
+        }else{
+            val date = Calendar.getInstance().time
+            val format = "dd/MM/yyyy"
+            val locale = Locale.getDefault()
+            val formatter = SimpleDateFormat(format, locale)
+            return formatter.format(date)
+        }
+    }
+
+    fun getCurrentYear():String{
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("yyyy")
+            return current.format(formatter)
+        }else{
+            val date = Calendar.getInstance().time
+            val format = "yyyy"
+            val locale = Locale.getDefault()
+            val formatter = SimpleDateFormat(format, locale)
+            return formatter.format(date)
+        }
+    }
 }

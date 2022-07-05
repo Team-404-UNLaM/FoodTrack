@@ -13,7 +13,7 @@ class MinifiedOrderMapper {
             order.consumptionModeId!!,
             order.paymentMethodId!!,
             order.totalPrice!!,
-            0.0
+            order.discountedPrice?: 0.0
         )
     }
 }
