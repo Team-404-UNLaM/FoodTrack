@@ -22,7 +22,7 @@ object MarketsMocks {
             .stars(4.5)
             .description("Restaurant tranquilo, especializado en hamburguesas y acompañamientos caseros")
             .type(listOf(MarketTypes.BAR))
-            .cellPhone("+54 9 11 6299 6704")
+            .cellPhone("+54 9 11 2262 1261")
             .build()
 
         val miGusto = Market.Builder()

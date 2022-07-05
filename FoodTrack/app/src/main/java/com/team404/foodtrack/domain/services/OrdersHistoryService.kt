@@ -2,15 +2,27 @@ package com.team404.foodtrack.domain.services
 
 import com.team404.foodtrack.data.OrderHistory
 import com.team404.foodtrack.domain.mappers.OrderHistoryMapper
+import com.team404.foodtrack.domain.mappers.OrderMapper
 import com.team404.foodtrack.domain.repositories.OrderHistoryRepository
+import com.team404.foodtrack.domain.repositories.OrderRepository
 import com.team404.foodtrack.utils.transformToLowercaseAndReplaceSpaceWithDash
 
-class OrdersHistoryService(private val ordersHistoryRepository: OrderHistoryRepository, private val orderHistoryMapper: OrderHistoryMapper) {
+class OrdersHistoryService(private val ordersHistoryRepository: OrderHistoryRepository,
+                           private val orderRepository: OrderRepository,
+                           private val orderMapper: OrderMapper,
+                           private val orderHistoryMapper: OrderHistoryMapper) {
 
-    fun search() : List<OrderHistory> {
+    suspend fun search() : List<OrderHistory> {
         val ordersHistoryList = mutableListOf<OrderHistory>()
-        val ordersFromServer = ordersHistoryRepository.search()
 
+        val ordersFromDataBase = orderRepository.search()
+        ordersFromDataBase.forEach { minifiedOrder ->
+            val order = orderMapper.map(minifiedOrder)
+            val orderHistory = orderHistoryMapper.map(order)
+            ordersHistoryList.add(orderHistory)
+        }
+
+        val ordersFromServer = ordersHistoryRepository.search()
         ordersFromServer.forEach { order ->
             val orderHistory = orderHistoryMapper.map(order)
             ordersHistoryList.add(orderHistory)
@@ -19,7 +31,7 @@ class OrdersHistoryService(private val ordersHistoryRepository: OrderHistoryRepo
         return ordersHistoryList
     }
 
-    fun searchByName(name: String) : List<OrderHistory> {
+    suspend fun searchByName(name: String) : List<OrderHistory> {
         val orderHistoryList = search()
         val orderHistoryListFiltered = mutableListOf<OrderHistory>()
 

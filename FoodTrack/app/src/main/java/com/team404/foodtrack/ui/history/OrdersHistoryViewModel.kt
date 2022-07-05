@@ -25,4 +25,14 @@ class OrdersHistoryViewModel(
             }
         }
     }
+
+    fun getFilteredMarketList(name: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = ordersHistoryService.searchByName(name)
+
+            withContext(Dispatchers.Main) {
+                ordersHistoryList.value = response as MutableList<OrderHistory>
+            }
+        }
+    }
 }

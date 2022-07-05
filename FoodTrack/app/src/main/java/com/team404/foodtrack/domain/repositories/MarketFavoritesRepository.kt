@@ -1,6 +1,5 @@
 package com.team404.foodtrack.domain.repositories
 
-import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.database.MarketFavorites
 import com.team404.foodtrack.domain.persistence.MarketFavoritesDao
 
