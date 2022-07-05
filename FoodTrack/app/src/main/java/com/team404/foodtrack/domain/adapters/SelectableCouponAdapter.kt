@@ -1,6 +1,7 @@
 package com.team404.foodtrack.domain.adapters
 
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
@@ -41,8 +42,10 @@ class SelectableCouponAdapter(private val viewClickListener: (Coupon) -> Unit) :
         holder.binding.validFor.text = buildCouponValidForMessage(coupon)
 
         val cardColor = if (selectedCouponId != null && coupon.id == selectedCouponId) "#FFFFE9BB" else "#FFFFFFFF"
+        val discountColor = if (selectedCouponId != null && coupon.id == selectedCouponId) "#FF1F970A" else "#FFED1C24"
 
         holder.binding.couponCard.setBackgroundColor(Color.parseColor(cardColor))
+        holder.binding.discountSection.background.setColorFilter(Color.parseColor(discountColor), PorterDuff.Mode.SRC_ATOP)
 
         if (coupon.couponImg != null) {
             Picasso.get()

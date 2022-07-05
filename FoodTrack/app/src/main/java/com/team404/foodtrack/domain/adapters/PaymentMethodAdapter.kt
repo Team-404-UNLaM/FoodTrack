@@ -27,7 +27,7 @@ class PaymentMethodAdapter (private val selectPaymentMethodClickListener: (Payme
 
         val cardColor = if (selectedPaymentMethodId != null && paymentMethod.id == selectedPaymentMethodId) "#FFFFE9BB" else "#FFFFFFFF"
 
-        holder.binding.paymentMethodArea.setBackgroundColor(Color.parseColor(cardColor))
+        holder.binding.paymentMethodCard.setCardBackgroundColor(Color.parseColor(cardColor))
 
         if (paymentMethod.paymentMethodImg != null) {
             Picasso.get()

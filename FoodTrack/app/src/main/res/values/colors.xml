@@ -5,6 +5,7 @@
     <color name="red_700">#FFB70F19</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="success">#36B81F</color>
     <color name="selectable_text">#FFE65B00</color>
     <color name="text">#FF22333B</color>
     <color name="default_icon">#FFFF4B66</color>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +57,7 @@ class SelectConsumptionModeFragment : Fragment() {
 
         val selectConsumptionModeClickListener = { consumptionMode: ConsumptionMode ->
             order.consumptionModeId(
-                if (order.consumptionModeId == consumptionMode.id) 0L else consumptionMode.id!!
+                if (order.consumptionModeId == consumptionMode.id) null else consumptionMode.id!!
             )
             consumptionModeAdapter.notifyDataSetChanged()
         }
@@ -79,9 +80,16 @@ class SelectConsumptionModeFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.btnGoToSelectProducts.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("order", GsonBuilder().create().toJson(order))
-            Navigation.findNavController(it).navigate(R.id.action_selectConsumptionModeFragment_to_selectOrderProductsFragment, bundle)
+            if (order.consumptionModeId != null) {
+                val bundle = Bundle()
+                bundle.putString("order", GsonBuilder().create().toJson(order))
+                Navigation.findNavController(it).navigate(R.id.action_selectConsumptionModeFragment_to_selectOrderProductsFragment, bundle)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Seleccione un modo de consumo",
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
