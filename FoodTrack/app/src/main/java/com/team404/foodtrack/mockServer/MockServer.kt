@@ -87,4 +87,8 @@ class MockServer {
     fun searchOrdersHistory() : List<Order> {
         return OrdersHistoryMocks.getOrdersHistoryMocks()
     }
+
+    fun searchOrderById(id: Long) : Order {
+        return OrdersHistoryMocks.getOrdersHistoryMocks().first { order -> order.id!! == id }
+    }
 }

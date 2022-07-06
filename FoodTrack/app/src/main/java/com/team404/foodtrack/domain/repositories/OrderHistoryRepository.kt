@@ -9,4 +9,8 @@ class OrderHistoryRepository(private val mockServer: MockServer) {
         return mockServer.searchOrdersHistory()
     }
 
+    fun searchByOrderId(id:Long) : Order {
+        return mockServer.searchOrderById(id)
+    }
+
 }

@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.RecyclerView
 import com.team404.foodtrack.R
+import com.team404.foodtrack.data.Order
 import com.team404.foodtrack.data.OrderHistory
 import com.team404.foodtrack.databinding.GridLayoutOrderHistoryBinding
 import com.team404.foodtrack.domain.holders.OrderHistoryViewHolder
 import com.team404.foodtrack.utils.DateAndTime
 import java.time.Month
 
-class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit, private val viewMarketClickListener: (OrderHistory) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
+class OrderHistoryAdapter (private val viewClickListener: (Order) -> Unit, private val viewMarketClickListener: (OrderHistory) -> Unit) : RecyclerView.Adapter<OrderHistoryViewHolder>() {
 
     private val TAKE_AWAY = "Take away"
     private val LOCAL_CONSUMPTION = "Consumicion en el local"
@@ -46,7 +47,7 @@ class OrderHistoryAdapter (private val viewClickListener: (OrderHistory) -> Unit
                 .into(holder.binding.marketImg)
         }
 
-        holder.binding.orderCard.setOnClickListener { viewClickListener(orderHistory) }
+        holder.binding.orderCardBody.setOnClickListener { viewClickListener(orderHistory.order!!) }
         holder.binding.txtViewMarket.setOnClickListener { viewMarketClickListener(orderHistory) }
     }
 
