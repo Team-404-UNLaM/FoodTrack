@@ -202,8 +202,6 @@ class OrderDetailFragment : Fragment() {
         }
     }
 
-
-    // TODO: Recibir objeto tipo Order
     private fun makeMessageToSendByWhatsApp(order: Order) {
         val market = marketRepository.searchById(order.marketId!!)
         val consumptionMode = consumptionModeRepository.searchById(order.consumptionModeId!!)

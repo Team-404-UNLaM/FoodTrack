@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
 import com.team404.foodtrack.R
 import com.team404.foodtrack.configuration.FoodTrackDB
 import com.team404.foodtrack.data.Order
@@ -60,8 +61,10 @@ class OrdersHistoryFragment : Fragment() {
     }
 
     private fun injectDependencies(view: View) {
-        val viewClickListener = { orderHistory: OrderHistory ->
-            Snackbar.make(view, "Orden: ${orderHistory.order.id}", Snackbar.LENGTH_SHORT).show()
+        val viewClickListener = { order: Order ->
+            val bundle = Bundle()
+            bundle.putString("order", GsonBuilder().create().toJson(order))
+            Navigation.findNavController(view).navigate(R.id.action_ordersHistoryFragment_to_orderFragment, bundle)
         }
 
         val viewMarketClickListener = { orderHistory: OrderHistory ->
